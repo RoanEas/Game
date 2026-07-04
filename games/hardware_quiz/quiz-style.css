@@ -1,0 +1,304 @@
+/* ==========================================================================
+    iOS PREMIUM MINIMAL QUIZ - DARK MODE (quiz-style.css)
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap');
+
+:root {
+    --ios-bg: #000000;
+    --ios-card: #1C1C1E;
+    --ios-card-pressed: #2C2C2E;
+    --ios-blue: #0A84FF;
+    --ios-red: #FF453A;
+    --ios-green: #30D158;
+    --text-main: #FFFFFF;
+    --text-muted: #8E8E93;
+    --border-ios: #2C2C2E;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Prompt', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--ios-bg);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.full-container {
+    width: 100%;
+    max-width: 480px; /* คุมขนาดสัดส่วนแอปโทรศัพท์มือถือ iPhone ให้ตรงกัน */
+    position: relative;
+    padding-bottom: 30px;
+}
+
+/* SCREEN TRANSITION */
+.screen {
+    display: none;
+    width: 100%;
+    animation: iosScreenReveal 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.screen.active {
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes iosScreenReveal {
+    from { opacity: 0; transform: scale(0.97) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ==========================================================================
+   🎯 หน้าแรกก่อนเริ่ม (INTRO SCREEN)
+   ========================================================================== */
+.minimal-intro {
+    text-align: center;
+    padding: 40px 10px;
+}
+
+.intro-badge {
+    font-size: 0.8rem;
+    color: var(--ios-blue);
+    font-weight: 500;
+    margin-bottom: 16px;
+    display: inline-block;
+    background: rgba(10, 132, 255, 0.1);
+    padding: 6px 16px;
+    border-radius: 30px;
+}
+
+.intro-title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+}
+
+.intro-subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 300;
+    margin-bottom: 50px;
+    padding: 0 20px;
+}
+
+.btn-start {
+    background: var(--ios-blue);
+    color: #FFFFFF;
+    border: none;
+    padding: 16px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 14px;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.btn-start:active {
+    opacity: 0.85;
+    transform: scale(0.98);
+}
+
+/* ==========================================================================
+   🎮 หน้าเล่นเกม (PLAYING SCREEN)
+   ========================================================================== */
+.game-info-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    padding: 0 4px;
+}
+
+.timer-bar-container {
+    width: 100%;
+    height: 3px;
+    background: var(--border-ios);
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.timer-bar {
+    height: 100%;
+    width: 100%;
+    background: var(--ios-blue);
+    transition: width 1s linear;
+}
+
+.bento-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* กล่องแสดงภาพอุปกรณ์ */
+.bento-media {
+    background: var(--ios-card);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    height: 200px;
+}
+
+.bento-media img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* กล่องควบคุมและช้อยส์คำตอบ */
+.bento-control {
+    background: var(--ios-card);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.question-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 18px;
+    color: var(--text-main);
+}
+
+.options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ปุ่มช้อยส์สไตล์ลิสต์ iOS */
+.choice-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: var(--text-main);
+    padding: 14px 18px;
+    font-size: 0.95rem;
+    text-align: left;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.choice-btn:active {
+    background: rgba(255, 255, 255, 0.12);
+    transform: scale(0.99);
+}
+
+/* สถานะตรวจคำตอบสไตล์ Apple นวลตา */
+.choice-btn.correct {
+    background: rgba(48, 209, 88, 0.2) !important;
+    color: #FFFFFF !important;
+    font-weight: 500;
+    box-shadow: inset 0 0 0 1px var(--ios-green);
+}
+
+.choice-btn.wrong {
+    background: rgba(255, 69, 58, 0.2) !important;
+    color: #FFFFFF !important;
+    box-shadow: inset 0 0 0 1px var(--ios-red);
+}
+
+.btn-next-action {
+    width: 100%;
+    background: var(--text-main);
+    color: #000000;
+    border: none;
+    padding: 14px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: opacity 0.2s;
+}
+.btn-next-action:active {
+    opacity: 0.9;
+}
+
+/* ==========================================================================
+   ⏱️ GIANT COUNTDOWN (ตัวเลขบางหรูสไตล์หน้าจอล็อก iPhone)
+   ========================================================================== */
+.giant-countdown {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.6);
+    font-size: 14rem;
+    font-weight: 200; /* นน. บางเบาแบบแอปหรู */
+    color: var(--ios-red);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+}
+.giant-countdown.pulse {
+    animation: iosTimerPunch 0.5s ease-out forwards;
+}
+
+@keyframes iosTimerPunch {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); filter: blur(3px); }
+    40% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.02); filter: blur(0); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* FLOATING TABBAR (สำหรับคุมในหน้าเกมด้วย) */
+.floating-tabbar {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 40px);
+    max-width: 440px;
+    background: rgba(28, 28, 30, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 6px;
+    border-radius: 40px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 9999;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floating-tabbar.hidden {
+    bottom: -80px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.tab-item {
+    flex: 1;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 12px 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-align: center;
+    border-radius: 30px;
+    transition: all 0.2s;
+}
+
+.tab-item.active {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.1);
+}

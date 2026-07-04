@@ -1,0 +1,550 @@
+/* ==========================================================================
+   🖤 SENIOR ROULETTE — OLED BLACK iOS THEME (game_shuffle.css)
+   Pure black, neon accents, glassmorphism cards
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Prompt:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg: #000000;
+    --surface: #111111;
+    --surface-2: #1c1c1e;
+    --surface-3: #2c2c2e;
+    --text: #ffffff;
+    --text-dim: #636366;
+    --text-mid: #aeaeb2;
+    --blue: #0a84ff;
+    --green: #30d158;
+    --orange: #ff9f0a;
+    --red: #ff453a;
+    --purple: #bf5af2;
+    --border: rgba(255,255,255,0.08);
+    --border-bright: rgba(255,255,255,0.15);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px 20px 80px;
+}
+
+/* ==========================================================================
+   GAME SHELL
+   ========================================================================== */
+.game-box {
+    width: 100%;
+    max-width: 960px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 36px 28px;
+    box-shadow: 0 0 0 1px var(--border), 0 40px 80px rgba(0,0,0,0.6);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle gradient glow top */
+.game-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+}
+
+/* Header */
+.game-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.game-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #ffffff 40%, #636366);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+}
+
+.game-header p {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    font-weight: 400;
+}
+
+/* Status pill */
+#game-status {
+    display: block;
+    text-align: center;
+    padding: 10px 24px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-mid);
+    margin: 0 auto 28px;
+    max-width: 600px;
+    transition: all 0.3s ease;
+}
+
+/* ==========================================================================
+   TOP SLOTS — TARGET ZONE
+   ========================================================================== */
+.target-zone {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 32px;
+    background: var(--surface-2);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 18px;
+}
+
+.target-slot {
+    width: 130px;
+    height: 180px;
+    border: 2px dashed rgba(10, 132, 255, 0.25);
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(10, 132, 255, 0.03);
+    position: relative;
+    transition: all 0.3s;
+}
+
+.target-slot.filled {
+    border-color: var(--blue);
+    background: rgba(10, 132, 255, 0.06);
+}
+
+.slot-placeholder {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-align: center;
+    padding: 10px;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   CARD GRID
+   ========================================================================== */
+.card-board {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    margin: 0 auto 28px;
+    max-width: 100%;
+    position: relative;
+    padding: 10px;
+}
+
+/* The card flip container */
+.card-container {
+    perspective: 900px;
+    width: 100%;
+    aspect-ratio: 3/4;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s ease, opacity 0.3s ease;
+    border-radius: 12px;
+}
+
+.card-container:hover:not(.selected):not(.hidden-card) {
+    transform: scale(0.97) translateY(-2px);
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+    border-radius: 12px;
+}
+
+.card-container.flipped .card-inner {
+    transform: rotateY(180deg) !important;
+}
+
+.card-front, .card-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow: hidden;
+}
+
+/* Back: numbered dark card */
+.card-back {
+    background: var(--surface-2);
+    border: 1px solid var(--border-bright);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.card-back .card-num {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.5px;
+}
+
+/* Front: photo + name */
+.card-front {
+    background: var(--surface-3);
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+}
+
+.card-front img {
+    width: 100%;
+    height: 72%;
+    object-fit: cover;
+}
+
+.card-front .name-tag {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--surface-2);
+    border-top: 1px solid var(--border);
+    padding: 4px;
+    text-align: center;
+}
+
+/* Hidden after moving to top slot */
+.card-container.hidden-card {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+/* ==========================================================================
+   🎯 SPOTLIGHT — THE NEW RANDOM MECHANIC
+   Hot-potato highlight bounces between cards and slows to stop on target
+   ========================================================================== */
+.card-container.spotlight {
+    transform: scale(1.05) translateY(-4px) !important;
+    z-index: 50;
+    transition: transform 0.1s ease !important;
+}
+
+.card-container.spotlight .card-back {
+    background: var(--blue) !important;
+    border-color: rgba(255,255,255,0.4) !important;
+    box-shadow: 0 0 20px rgba(10,132,255,0.6), 0 0 40px rgba(10,132,255,0.3) !important;
+}
+
+.card-container.spotlight .card-back .card-num {
+    color: #fff;
+}
+
+/* Final selected highlight */
+.card-container.selected .card-back {
+    background: linear-gradient(135deg, #0a84ff, #5e5ce6) !important;
+    border-color: rgba(255,255,255,0.5) !important;
+    box-shadow: 0 0 0 2px var(--blue), 0 0 30px rgba(10,132,255,0.5) !important;
+}
+
+/* ==========================================================================
+   WIDGET CARDS (in top slots)
+   ========================================================================== */
+.widget-card {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.widget-card img {
+    width: 100%;
+    height: 72%;
+    object-fit: cover;
+    display: block;
+}
+
+.widget-card .w-name {
+    height: 28%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text);
+    background: var(--surface-3);
+    border-top: 1px solid var(--border);
+}
+
+.widget-card .w-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,69,58,0.12);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.widget-card.revealed .w-overlay {
+    opacity: 1;
+}
+
+.widget-card.revealed img,
+.widget-card.revealed .w-name {
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+
+.widget-card.revealed {
+    border: 1px solid var(--red);
+    box-shadow: 0 0 15px rgba(255,69,58,0.4);
+    border-radius: 12px;
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+.action-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.btn-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-main {
+    background: var(--text);
+    color: #000;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 14px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: -0.2px;
+}
+.btn-main:hover:not(:disabled) {
+    background: #f5f5f7;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(255,255,255,0.1);
+}
+.btn-main:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--blue);
+    border: 1px solid rgba(10,132,255,0.4);
+    padding: 14px 28px;
+    border-radius: 14px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-outline:hover:not(:disabled) {
+    background: rgba(10,132,255,0.08);
+    border-color: var(--blue);
+}
+
+.btn-main:disabled, .btn-outline:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.back-link {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 8px 20px;
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    transition: all 0.2s;
+}
+.back-link:hover {
+    color: var(--text);
+    border-color: var(--border-bright);
+}
+
+/* ==========================================================================
+   SELECTION ANNOUNCEMENT OVERLAY
+   ========================================================================== */
+#pick-announce {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+#pick-announce.show {
+    display: flex;
+}
+
+.announce-box {
+    background: var(--surface-2);
+    border: 1px solid var(--border-bright);
+    border-radius: 24px;
+    padding: 40px 50px;
+    text-align: center;
+    max-width: 380px;
+    width: 90%;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    animation: popIn 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes popIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.announce-emoji {
+    font-size: 3.5rem;
+    margin-bottom: 12px;
+}
+
+.announce-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+}
+
+.announce-name {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.announce-num {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+}
+
+.announce-img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--blue);
+    display: block;
+    margin: 0 auto 20px;
+    box-shadow: 0 0 30px rgba(10,132,255,0.4);
+}
+
+.btn-announce-continue {
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    padding: 13px 32px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    margin-bottom: 8px;
+}
+.btn-announce-continue:hover {
+    background: #1c8fff;
+}
+
+.btn-announce-skip {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    padding: 10px 32px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s;
+}
+.btn-announce-skip:hover {
+    color: var(--text);
+    border-color: var(--border-bright);
+}
+
+/* ==========================================================================
+   HAPTIC SHAKE ANIMATION
+   ========================================================================== */
+@keyframes shakeHaptic {
+    0% { transform: translate(0,0) rotate(0); }
+    15% { transform: translate(-5px, 3px) rotate(-2deg); }
+    30% { transform: translate(5px, -2px) rotate(2deg); }
+    45% { transform: translate(-4px, -2px) rotate(-1deg); }
+    60% { transform: translate(4px, 3px) rotate(1deg); }
+    75% { transform: translate(-2px, 1px) rotate(-1deg); }
+    100% { transform: translate(0,0) rotate(0); }
+}
+
+.shake {
+    animation: shakeHaptic 0.4s ease both;
+}
+
+/* Pulse ring on selected card */
+@keyframes pulseRing {
+    0% { box-shadow: 0 0 0 0 rgba(10,132,255,0.6); }
+    70% { box-shadow: 0 0 0 12px rgba(10,132,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(10,132,255,0); }
+}
+
+.card-container.selected .card-back {
+    animation: pulseRing 1s infinite;
+}

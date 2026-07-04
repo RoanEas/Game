@@ -1,0 +1,74 @@
+{
+    "seniors": [
+        {
+            "id": 1,
+            "name": "สโร",
+            "image": "assets\/seniors\/senior_1.jpg"
+        },
+        {
+            "id": 2,
+            "name": "อิง",
+            "image": "assets\/seniors\/senior_2.jpg"
+        },
+        {
+            "id": 3,
+            "name": "เอ็ม",
+            "image": "assets\/seniors\/senior_3.jpg"
+        },
+        {
+            "id": 4,
+            "name": "อัด",
+            "image": "assets\/seniors\/senior_4.jpg"
+        },
+        {
+            "id": 5,
+            "name": "ฟาด",
+            "image": "assets\/seniors\/senior_5.jpg"
+        },
+        {
+            "id": 6,
+            "name": "ไนท์",
+            "image": "assets\/seniors\/senior_6.jpg"
+        },
+        {
+            "id": 7,
+            "name": "ขิม",
+            "image": "assets\/seniors\/senior_7.jpg"
+        },
+        {
+            "id": 8,
+            "name": "เจมส์",
+            "image": "assets\/seniors\/senior_8.jpg"
+        },
+        {
+            "id": 9,
+            "name": "โฟท์",
+            "image": "assets\/seniors\/senior_9.jpg"
+        },
+        {
+            "id": 10,
+            "name": "ไอซ์",
+            "image": "assets\/seniors\/senior_10.jpg"
+        },
+        {
+            "id": 11,
+            "name": "อุ้ม",
+            "image": "assets\/seniors\/senior_11.jpg"
+        },
+        {
+            "id": 12,
+            "name": "เอิธ์",
+            "image": "assets\/seniors\/senior_12.jpg"
+        },
+        {
+            "id": 13,
+            "name": "คิม",
+            "image": "assets\/seniors\/senior_1783161005_1988.jpg"
+        },
+        {
+            "id": 14,
+            "name": "บาส",
+            "image": "assets\/seniors\/senior_14.jpg"
+        }
+    ]
+}

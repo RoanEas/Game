@@ -1,0 +1,38 @@
+{
+  "hairs": [
+    { "id": 0, "name": "ทรงผมเริ่มต้น", "icon": "👦🏻", "image_url": "assets/avatar/hairs/hair_0.png" },
+    { "id": 1, "name": "ผมลอนมาดเข้ม", "icon": "🧑🏼‍🦱", "image_url": "assets/avatar/hairs/hair_1.png" },
+    { "id": 2, "name": "ผมแดงสุดฮอต", "icon": "👨🏻‍🦰", "image_url": "assets/avatar/hairs/hair_2.png" },
+    { "id": 3, "name": "หูฟังเกมเมอร์", "icon": "🎧", "image_url": "assets/avatar/hairs/hair_3.png" },
+    { "id": 4, "name": "มงกุฎราชา", "icon": "👑", "image_url": "assets/avatar/hairs/hair_4.png" }
+  ],
+  "clothes": [
+    { "id": 0, "name": "เสื้อยืดธรรมดา", "icon": "👕", "image_url": "assets/avatar/clothes/cloth_0.png" },
+    { "id": 1, "name": "ชุดสูทสากล", "icon": "👔", "image_url": "assets/avatar/clothes/cloth_1.png" },
+    { "id": 2, "name": "เสื้อโค้ทกันหนาว", "icon": "🧥", "image_url": "assets/avatar/clothes/cloth_2.png" },
+    { "id": 3, "name": "ชุดนักบินอวกาศ", "icon": "🚀", "image_url": "assets/avatar/clothes/cloth_3.png" },
+    { "id": 4, "name": "ชุดกิโมโนนักรบ", "icon": "🥋", "image_url": "assets/avatar/clothes/cloth_4.png" }
+  ],
+  "avatars": [
+    { "id": 0, "name": "สายลับน้องหมา", "file": "dog.png", "img_url": "assets/avatar/dog.png" },
+    { "id": 1, "name": "สายลับแมวส้ม", "file": "cat.png", "img_url": "assets/avatar/cat.png" },
+    { "id": 2, "name": "สายลับนุ่มนิ่ม", "file": "bear.png", "img_url": "assets/avatar/bear.png" },
+    { "id": 3, "name": "สายลับบอย", "file": "boy.png", "img_url": "assets/avatar/boy.png" },
+    { "id": 4, "name": "สายลับเกิร์ล", "file": "girl.png", "img_url": "assets/avatar/girl.png" }
+  ],
+  "seniors": [
+    { "id": 1, "name": "รุ่นพี่ ปวส. คนที่ 1", "image": "assets/seniors/senior_1.jpg" },
+    { "id": 2, "name": "รุ่นพี่ ปวส. คนที่ 2", "image": "assets/seniors/senior_2.jpg" },
+    { "id": 3, "name": "รุ่นพี่ ปวส. คนที่ 3", "image": "assets/seniors/senior_3.jpg" },
+    { "id": 4, "name": "รุ่นพี่ ปวส. คนที่ 4", "image": "assets/seniors/senior_4.jpg" },
+    { "id": 5, "name": "รุ่นพี่ ปวส. คนที่ 5", "image": "assets/seniors/senior_5.jpg" },
+    { "id": 6, "name": "รุ่นพี่ ปวส. คนที่ 6", "image": "assets/seniors/senior_6.jpg" },
+    { "id": 7, "name": "รุ่นพี่ ปวส. คนที่ 7", "image": "assets/seniors/senior_7.jpg" },
+    { "id": 8, "name": "รุ่นพี่ ปวส. คนที่ 8", "image": "assets/seniors/senior_8.jpg" },
+    { "id": 9, "name": "รุ่นพี่ ปวส. คนที่ 9", "image": "assets/seniors/senior_9.jpg" },
+    { "id": 10, "name": "รุ่นพี่ ปวส. คนที่ 10", "image": "assets/seniors/senior_10.jpg" },
+    { "id": 11, "name": "รุ่นพี่ ปวส. คนที่ 11", "image": "assets/seniors/senior_11.jpg" },
+    { "id": 12, "name": "รุ่นพี่ ปวส. คนที่ 12", "image": "assets/seniors/senior_12.jpg" },
+    { "id": 13, "name": "รุ่นพี่ ปวส. คนที่ 13", "image": "assets/seniors/senior_13.jpg" }
+  ]
+}
