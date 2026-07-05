@@ -28,6 +28,14 @@ if (file_exists($jsonPath)) {
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <body>
+<script>
+    (function() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+        }
+    })();
+</script>
 
 <canvas id="canvas-particles"></canvas>
 <canvas id="canvas-fireworks"></canvas>
@@ -39,6 +47,9 @@ if (file_exists($jsonPath)) {
     <header class="hud-header">
         <h1 class="hud-title">กระดานบิงโกของฉัน</h1>
         <div class="hud-actions">
+            <button class="circle-btn" id="btn-theme" onclick="toggleTheme()" title="เปลี่ยนธีม มืด/สว่าง">
+                <ion-icon name="moon-outline" id="theme-icon"></ion-icon>
+            </button>
             <button class="circle-btn" id="btn-sound" onclick="toggleMusic()" title="เพลงประกอบกล่องดนตรี">
                 <ion-icon name="musical-notes-outline" id="sound-icon"></ion-icon>
             </button>
@@ -175,6 +186,34 @@ function toggleMusic() {
         btn.classList.add('active');
         startMusicBoxSynth();
     }
+}
+
+// Theme Management (Light / Dark Mode)
+function updateThemeIcon() {
+    const themeIcon = document.getElementById('theme-icon');
+    const btnTheme = document.getElementById('btn-theme');
+    if (document.body.classList.contains('light-mode')) {
+        if (themeIcon) themeIcon.setAttribute('name', 'sun-outline');
+        if (btnTheme) btnTheme.classList.add('active');
+    } else {
+        if (themeIcon) themeIcon.setAttribute('name', 'moon-outline');
+        if (btnTheme) btnTheme.classList.remove('active');
+    }
+}
+
+function toggleTheme() {
+    initAudio();
+    const body = document.body;
+    if (body.classList.contains('light-mode')) {
+        body.classList.remove('light-mode');
+        localStorage.setItem('theme', 'dark');
+        playTone(400, 'sine', 0.08, 0.04);
+    } else {
+        body.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+        playTone(600, 'sine', 0.08, 0.04);
+    }
+    updateThemeIcon();
 }
 
 // Get relative path helper
@@ -405,7 +444,10 @@ class DustParticle {
     draw() {
         partCtx.beginPath();
         partCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        partCtx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+        const isLight = document.body.classList.contains('light-mode');
+        partCtx.fillStyle = isLight 
+            ? `rgba(0, 0, 0, ${this.alpha * 0.35})` 
+            : `rgba(255, 255, 255, ${this.alpha})`;
         partCtx.fill();
     }
 }
@@ -622,6 +664,7 @@ async function syncDrawnItems() {
 }
 
 // Start Setup
+updateThemeIcon();
 loadOrCreatePlayerCard();
 renderPlayerBoard();
 
