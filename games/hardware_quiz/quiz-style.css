@@ -893,24 +893,56 @@ body {
     }
 }
 
+body:has(.admin-app) {
+    overflow: y;
+    overflow-y: auto;
+}
+
 @media (min-width: 768px) {
     .minimal-app.admin-app {
-        max-width: 880px;
+        max-width: 1400px;
+        width: 100%;
+        padding: 0 20px;
     }
     .admin-grid-layout {
-        grid-template-columns: 300px 1fr;
-        gap: 24px;
-        align-items: start;
+        grid-template-columns: 320px 1fr;
+        gap: 30px;
+        align-items: stretch;
     }
-    .admin-right-col .item-display-pod {
-        max-width: 380px;
-        border-radius: 32px;
-    }
-    .admin-right-col .placeholder-icon {
-        font-size: 6rem;
+    .admin-right-col {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
     .admin-right-col .main-card {
-        padding: 36px 30px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        height: 100%;
+    }
+    .admin-right-col .item-display-pod {
+        max-width: 500px;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 36px;
+    }
+    .admin-right-col .placeholder-icon {
+        font-size: 8rem;
+    }
+    .admin-right-col .item-name {
+        font-size: 2.2rem;
+        margin: 15px 0;
+    }
+    .admin-right-col .btn-draw {
+        font-size: 1.3rem;
+        padding: 20px 32px;
+        max-width: 500px;
+    }
+    .admin-right-col .sub-actions {
+        max-width: 500px;
     }
     .floating-tabbar {
         display: none;
