@@ -15,9 +15,9 @@ if (!$input || !isset($input['action'])) {
     exit;
 }
 
-$projectDir = '/minigmae'; 
-$themePath = $_SERVER['DOCUMENT_ROOT'] . $projectDir . '/data/senior_theme.json';
-$seniorsPath = $_SERVER['DOCUMENT_ROOT'] . $projectDir . '/data/seniors_list.json';
+$themePath = dirname(__DIR__, 2) . '/data/senior_theme.json';
+$seniorsPath = dirname(__DIR__, 2) . '/data/seniors_list.json';
+
 
 if ($input['action'] === 'save_theme') {
     if (isset($input['theme']) && is_array($input['theme'])) {

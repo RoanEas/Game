@@ -1,0 +1,127 @@
+{
+    "items": [
+        {
+            "id": 1,
+            "name": "หน่วยความจำ",
+            "image": "https:\/\/images.unsplash.com\/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 2,
+            "name": "อีดิท",
+            "image": "https:\/\/images.unsplash.com\/photo-1516259762381-22954d7d3ad2?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 3,
+            "name": "ข้อมูล",
+            "image": "https:\/\/images.unsplash.com\/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 4,
+            "name": "เครื่องอ่านบาร์โค้ด",
+            "image": "https:\/\/images.unsplash.com\/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 5,
+            "name": "อินเทอร์เน็ต",
+            "image": "https:\/\/images.unsplash.com\/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 6,
+            "name": "แรม",
+            "image": "https:\/\/images.unsplash.com\/photo-1562976540-1502c2145186?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 7,
+            "name": "คีย์บอร์ด",
+            "image": "https:\/\/images.unsplash.com\/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 8,
+            "name": "หูฟัง",
+            "image": "https:\/\/images.unsplash.com\/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 9,
+            "name": "แผ่นเสียง",
+            "image": "https:\/\/images.unsplash.com\/photo-1539625319135-8d6b9e86fcf7?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 10,
+            "name": "สื่อจัดเก็บข้อมูล",
+            "image": "https:\/\/images.unsplash.com\/photo-1597852074816-d933c4d2b988?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 11,
+            "name": "พาวเวอร์ซัพพลาย",
+            "image": "https:\/\/images.unsplash.com\/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 12,
+            "name": "พาสเวิร์ด",
+            "image": "https:\/\/images.unsplash.com\/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 13,
+            "name": "สแกนเนอร์",
+            "image": "https:\/\/images.unsplash.com\/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 14,
+            "name": "เอเร่อ",
+            "image": "https:\/\/images.unsplash.com\/photo-1594322436404-5a0526db4d13?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 15,
+            "name": "ดาวน์โหลด",
+            "image": "https:\/\/images.unsplash.com\/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 16,
+            "name": "ซีพียู",
+            "image": "https:\/\/images.unsplash.com\/photo-1518770660439-4636190af475?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 17,
+            "name": "เคส",
+            "image": "https:\/\/images.unsplash.com\/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 18,
+            "name": "ฮาร์ดดิสก์",
+            "image": "https:\/\/images.unsplash.com\/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 19,
+            "name": "ซอฟต์แวร์",
+            "image": "https:\/\/images.unsplash.com\/photo-1605379399642-870262d3d051?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 20,
+            "name": "การ์ดแสดงผล",
+            "image": "https:\/\/images.unsplash.com\/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 21,
+            "name": "ซีดี",
+            "image": "https:\/\/images.unsplash.com\/photo-1528642474498-1af0c17fd8c3?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 22,
+            "name": "ไมโครโฟน",
+            "image": "https:\/\/images.unsplash.com\/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 23,
+            "name": "ยูสเซอร์เนม",
+            "image": "https:\/\/images.unsplash.com\/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80"
+        },
+        {
+            "id": 24,
+            "name": "จอภาพ",
+            "image": "https:\/\/images.unsplash.com\/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=300&q=80"
+        }
+    ],
+    "round_id": "r_6a4a163583f913.55142272",
+    "drawn_ids": [],
+    "winners": []
+}

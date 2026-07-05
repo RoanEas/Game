@@ -1,8 +1,8 @@
 <?php
 session_start();
-$projectDir = '/minigmae'; 
-$jsonPath = $_SERVER['DOCUMENT_ROOT'] . $projectDir . '/data/seniors_list.json';
-$themePath = $_SERVER['DOCUMENT_ROOT'] . $projectDir . '/data/senior_theme.json';
+$jsonPath = dirname(__DIR__, 2) . '/data/seniors_list.json';
+$themePath = dirname(__DIR__, 2) . '/data/senior_theme.json';
+
 
 // Load Seniors
 if (file_exists($jsonPath)) {

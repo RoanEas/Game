@@ -1,5 +1,6 @@
 <?php
-$projectDir = '/minigmae'; 
+$projectDir = '/gmaemini';
+ 
 
 // ตรวจจับอย่างง่ายว่าเปิดผ่านมือถือหรือไม่
 $isMobile = false;
