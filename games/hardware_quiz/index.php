@@ -80,6 +80,14 @@ $isAdmin = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin');
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <body>
+<script>
+    (function() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+        }
+    })();
+</script>
 
 <canvas id="canvas-particles"></canvas>
 <canvas id="canvas-fireworks"></canvas>
@@ -115,79 +123,111 @@ $isAdmin = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin');
 </div>
 
 
-<div class="minimal-app">
+<div class="minimal-app admin-app">
 
-    <!-- TOP BAR -->
-    <header class="hud-header">
-        <h1 class="hud-title">เครื่องสุ่มจับสลากบิงโก</h1>
-        <div class="hud-actions">
-            <button class="circle-btn" id="btn-sound" onclick="toggleMusic()" title="เพลงประกอบกล่องดนตรี">
-                <ion-icon name="musical-notes-outline" id="sound-icon"></ion-icon>
-            </button>
-            <button class="circle-btn" onclick="openBingoBoard()" title="ดูตารางตรวจสอบบิงโก">
-                <ion-icon name="grid-outline"></ion-icon>
-            </button>
-            <button class="circle-btn" onclick="resetBingoGame()" title="รีเซ็ตสุ่มใหม่">
-                <ion-icon name="refresh-outline"></ion-icon>
-            </button>
-        </div>
-    </header>
+    <div class="admin-grid-layout">
+        <!-- LEFT COLUMN: NAVIGATION / INFO / HUD -->
+        <div class="admin-left-col" style="display: flex; flex-direction: column; gap: 20px;">
+            
+            <!-- HUD Header -->
+            <header class="hud-header" style="flex-direction: column; align-items: stretch; gap: 15px; padding: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <h1 class="hud-title" style="font-size: 1.25rem;">เครื่องสุ่มจับบิงโก</h1>
+                    <div class="hud-actions">
+                        <button class="circle-btn" id="btn-theme" onclick="toggleTheme()" title="เปลี่ยนธีม มืด/สว่าง">
+                            <ion-icon name="moon-outline" id="theme-icon"></ion-icon>
+                        </button>
+                        <button class="circle-btn" id="btn-sound" onclick="toggleMusic()" title="เพลงประกอบกล่องดนตรี">
+                            <ion-icon name="musical-notes-outline" id="sound-icon"></ion-icon>
+                        </button>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-secondary" onclick="openBingoBoard()" style="padding: 10px; font-size: 0.8rem;" title="ดูตารางตรวจสอบบิงโก">
+                        <ion-icon name="grid-outline" style="font-size: 1.1rem;"></ion-icon> ตารางตรวจสอบ
+                    </button>
+                    <button class="btn-secondary" onclick="resetBingoGame()" style="padding: 10px; font-size: 0.8rem; border-color: rgba(239, 68, 68, 0.2); color: #ef4444;" title="รีเซ็ตสุ่มใหม่">
+                        <ion-icon name="refresh-outline" style="font-size: 1.1rem;"></ion-icon> รีเซ็ตเกมใหม่
+                    </button>
+                </div>
+            </header>
 
-
-    <?php if ($isAdmin): ?>
-        <div class="admin-badge">👨‍💻 แอดมิน: แก้ไขรูป/ชื่อได้ทันทีในปุ่ม "เปลี่ยนรูปภาพ/ชื่อ" ด้านล่าง</div>
-    <?php endif; ?>
-
-    <!-- MAIN MINIMAL CARD -->
-    <main class="main-card">
-        
-        <span class="status-pill" id="caller-status">พร้อมเริ่มจับรางวัล</span>
-
-        <div class="item-display-pod" id="display-pod">
-            <ion-icon name="cube-outline" class="placeholder-icon" id="display-placeholder"></ion-icon>
-            <img id="display-image" src="" alt="Drawn Item" style="display: none;">
-        </div>
-
-        <div class="item-name" id="display-name">กดสุ่มจับเพื่อลุ้นกันเลย!</div>
-
-        <!-- MAIN BUTTON -->
-        <button class="btn-draw" id="btn-draw" onclick="drawNextItem()">
-            <ion-icon name="sparkles-outline" style="font-size: 20px;"></ion-icon>
-            🎲 สุ่มจับอุปกรณ์ถัดไป
-        </button>
-
-        <!-- SUB ACTIONS -->
-        <div class="sub-actions">
-            <button class="btn-secondary" id="btn-auto" onclick="toggleAutoPlay()">
-                <ion-icon name="play-outline"></ion-icon> สุ่มรันอัตโนมัติ
-            </button>
-            <button class="btn-secondary" onclick="openHistorySheet()">
-                <ion-icon name="image-outline"></ion-icon> เปลี่ยนรูปภาพ/ชื่อ (<span id="progress-text">0/24</span>)
-            </button>
-        </div>
-
-        <!-- BINGO WINNERS SCOREBOARD -->
-        <div style="width:100%; border-top:1px solid var(--border); padding-top:15px; margin-top:15px; text-align:left;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <span style="font-size:0.85rem; font-weight:600; color:#fbbf24; display:flex; align-items:center; gap:4px;">
-                    <ion-icon name="trophy-outline" style="font-size:1.1rem;"></ion-icon> ผู้ชนะบิงโกในรอบนี้ (<span id="winner-count">0</span>)
-                </span>
+            <!-- Sidebar Tabbar -->
+            <div class="sidebar-menu">
+                <div class="menu-item active">
+                    <ion-icon name="sparkles" style="font-size: 1.2rem;"></ion-icon>
+                    <span>เครื่องสุ่มจับ</span>
+                </div>
+                <a href="play.php" class="menu-item">
+                    <ion-icon name="grid-outline" style="font-size: 1.2rem;"></ion-icon>
+                    <span>กระดานเล่นบิงโก</span>
+                </a>
+                <a href="../../dashboard.php" class="menu-item">
+                    <ion-icon name="home-outline" style="font-size: 1.2rem;"></ion-icon>
+                    <span>หน้าควบคุมหลัก</span>
+                </a>
             </div>
-            <div id="winners-list-container" style="display:flex; flex-direction:column; gap:6px; max-height:120px; overflow-y:auto; font-size:0.8rem; color:var(--text-muted);">
-                <div style="text-align:center; padding:10px; font-style:italic;">ยังไม่มีผู้บิงโกในรอบนี้</div>
+
+            <!-- BINGO WINNERS SCOREBOARD -->
+            <div class="main-card" style="padding: 20px; align-items: stretch; text-align: left; gap: 12px; box-shadow: var(--card-shadow); width: 100%;">
+                <div style="font-size:0.9rem; font-weight:600; color:#fbbf24; display:flex; align-items:center; gap:6px;">
+                    <ion-icon name="trophy-outline" style="font-size:1.25rem;"></ion-icon> 
+                    <span>ผู้ชนะบิงโกในรอบนี้ (<span id="winner-count">0</span>)</span>
+                </div>
+                <div id="winners-list-container" style="display:flex; flex-direction:column; gap:8px; max-height:240px; overflow-y:auto; font-size:0.85rem; color:var(--text-muted);">
+                    <div style="text-align:center; padding:10px; font-style:italic;">ยังไม่มีผู้บิงโกในรอบนี้</div>
+                </div>
             </div>
+            
         </div>
 
-    </main>
+        <!-- RIGHT COLUMN: THE RANDOMIZER FOCUS -->
+        <div class="admin-right-col">
+            
+            <?php if ($isAdmin): ?>
+                <div class="admin-badge" style="margin-bottom: 15px;">👨‍💻 แอดมิน: แก้ไขรูป/ชื่อได้ในปุ่ม "เปลี่ยนรูปภาพ/ชื่อ" ด้านล่าง</div>
+            <?php endif; ?>
 
+            <!-- MAIN MINIMAL CARD -->
+            <main class="main-card" style="width: 100%;">
+                
+                <span class="status-pill" id="caller-status">พร้อมเริ่มจับรางวัล</span>
 
-    <!-- FLOATING TABBAR -->
+                <div class="item-display-pod" id="display-pod">
+                    <ion-icon name="cube-outline" class="placeholder-icon" id="display-placeholder"></ion-icon>
+                    <img id="display-image" src="" alt="Drawn Item" style="display: none;">
+                </div>
+
+                <div class="item-name" id="display-name" style="font-size: 1.8rem; margin: 10px 0;">กดสุ่มจับเพื่อลุ้นกันเลย!</div>
+
+                <!-- MAIN BUTTON -->
+                <button class="btn-draw" id="btn-draw" onclick="drawNextItem()" style="font-size: 1.15rem; padding: 18px 28px;">
+                    <ion-icon name="sparkles-outline" style="font-size: 24px;"></ion-icon>
+                    🎲 สุ่มจับอุปกรณ์ถัดไป
+                </button>
+
+                <!-- SUB ACTIONS -->
+                <div class="sub-actions">
+                    <button class="btn-secondary" id="btn-auto" onclick="toggleAutoPlay()">
+                        <ion-icon name="play-outline"></ion-icon> สุ่มรันอัตโนมัติ
+                    </button>
+                    <button class="btn-secondary" onclick="openHistorySheet()">
+                        <ion-icon name="image-outline"></ion-icon> เปลี่ยนรูปภาพ/ชื่อ (<span id="progress-text">0/24</span>)
+                    </button>
+                </div>
+
+            </main>
+            
+        </div>
+    </div>
+
+    <!-- FLOATING TABBAR (Mobile fallback) -->
     <div class="floating-tabbar">
         <div class="tab-item active">เครื่องสุ่มจับ</div>
         <a href="play.php" class="tab-item">กระดานเล่นบิงโก</a>
         <a href="../../dashboard.php" class="tab-item">หน้าควบคุมหลัก</a>
     </div>
-
 
 </div>
 
@@ -336,6 +376,34 @@ function toggleMusic() {
         btn.classList.add('active');
         startMusicBoxSynth();
     }
+}
+
+// Theme Management (Light / Dark Mode)
+function updateThemeIcon() {
+    const themeIcon = document.getElementById('theme-icon');
+    const btnTheme = document.getElementById('btn-theme');
+    if (document.body.classList.contains('light-mode')) {
+        if (themeIcon) themeIcon.setAttribute('name', 'sun-outline');
+        if (btnTheme) btnTheme.classList.add('active');
+    } else {
+        if (themeIcon) themeIcon.setAttribute('name', 'moon-outline');
+        if (btnTheme) btnTheme.classList.remove('active');
+    }
+}
+
+function toggleTheme() {
+    initAudio();
+    const body = document.body;
+    if (body.classList.contains('light-mode')) {
+        body.classList.remove('light-mode');
+        localStorage.setItem('theme', 'dark');
+        playTone(400, 'sine', 0.08, 0.04);
+    } else {
+        body.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+        playTone(600, 'sine', 0.08, 0.04);
+    }
+    updateThemeIcon();
 }
 
 // Admin Item Editor
@@ -755,7 +823,10 @@ class DustParticle {
     draw() {
         partCtx.beginPath();
         partCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        partCtx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+        const isLight = document.body.classList.contains('light-mode');
+        partCtx.fillStyle = isLight 
+            ? `rgba(0, 0, 0, ${this.alpha * 0.35})` 
+            : `rgba(255, 255, 255, ${this.alpha})`;
         partCtx.fill();
     }
 }
@@ -942,6 +1013,7 @@ function animateFireworks() {
 }
 
 // Start Setup
+updateThemeIcon();
 initializePool();
 renderSheetList();
 
