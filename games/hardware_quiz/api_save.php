@@ -55,8 +55,25 @@ if ($action === 'save_items') {
     $existingData['round_id'] = uniqid('r_', true);
     $existingData['drawn_ids'] = [];
     $existingData['winners'] = [];
+    
+    // Generate pre-determined draw sequence
+    $itemIds = [];
+    foreach (($existingData['items'] ?? []) as $item) {
+        $itemIds[] = intval($item['id']);
+    }
+    shuffle($itemIds);
+    $existingData['draw_sequence'] = $itemIds;
+    
+    // Reset player assignments
+    $existingData['player_assignments'] = [];
+    
     file_put_contents($jsonPath, json_encode($existingData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-    echo json_encode(["status" => "success", "round_id" => $existingData['round_id']]);
+    echo json_encode([
+        "status" => "success",
+        "round_id" => $existingData['round_id'],
+        "draw_sequence" => $existingData['draw_sequence'],
+        "drawn_ids" => $existingData['drawn_ids']
+    ]);
 } elseif ($action === 'draw_item') {
     $itemId = intval($input['id']);
     if (!in_array($itemId, $existingData['drawn_ids'])) {

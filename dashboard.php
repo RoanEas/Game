@@ -82,8 +82,12 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : "admin1";
     </main>
 
     <nav class="floating-tabbar">
+        <a href="index.php" class="tab-item">หน้าแรกหลัก</a>
         <a href="#" class="tab-item active">หน้าหลักแผงควบคุม</a>
         <a href="games/hardware_quiz/index.php" class="tab-item">เข้าเล่นเกมคำถาม</a>
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <a href="admin.php" class="tab-item" style="color: #facc15;">ผู้ดูแลระบบ (Admin)</a>
+        <?php endif; ?>
         <a href="logout.php" class="tab-item" style="color: var(--neon-pink);">ออกจากระบบ</a>
     </nav>
 

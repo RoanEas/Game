@@ -11,6 +11,46 @@ $jsonPath = dirname(__DIR__, 2) . '/data/bingo_items.json';
 // Ensure json exists, otherwise read default or fallback
 if (file_exists($jsonPath)) {
     $itemsJson = file_get_contents($jsonPath);
+    $itemsData = json_decode($itemsJson, true);
+    if (is_array($itemsData)) {
+        $needsWrite = false;
+        if (!isset($itemsData['round_id'])) {
+            $itemsData['round_id'] = uniqid('r_', true);
+            $needsWrite = true;
+        }
+        
+        // Define the 5 decoy items
+        $decoys = [
+            ["id" => 25, "name" => "เครื่องปริ้นเตอร์ 3 มิติ", "image" => "https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&w=300&q=80", "decoy" => true],
+            ["id" => 26, "name" => "แว่น VR", "image" => "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=300&q=80", "decoy" => true],
+            ["id" => 27, "name" => "พล็อตเตอร์", "image" => "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=300&q=80", "decoy" => true],
+            ["id" => 28, "name" => "การ์ดเสียง", "image" => "https://images.unsplash.com/photo-1580584126903-c17d41830450?auto=format&fit=crop&w=300&q=80", "decoy" => true],
+            ["id" => 29, "name" => "เครื่องสำรองไฟ (UPS)", "image" => "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=300&q=80", "decoy" => true]
+        ];
+        $existingIds = array_column($itemsData['items'], 'id');
+        foreach ($decoys as $decoy) {
+            if (!in_array($decoy['id'], $existingIds)) {
+                $itemsData['items'][] = $decoy;
+                $needsWrite = true;
+            }
+        }
+        
+        if (!isset($itemsData['draw_sequence']) || empty($itemsData['draw_sequence'])) {
+            $itemIds = [];
+            foreach (($itemsData['items'] ?? []) as $item) {
+                if (empty($item['decoy'])) {
+                    $itemIds[] = intval($item['id']);
+                }
+            }
+            shuffle($itemIds);
+            $itemsData['draw_sequence'] = $itemIds;
+            $needsWrite = true;
+        }
+        if ($needsWrite) {
+            file_put_contents($jsonPath, json_encode($itemsData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        }
+        $itemsJson = json_encode($itemsData);
+    }
 } else {
     // Fallback if not generated yet
     $itemsJson = json_encode(["items" => []]);
@@ -47,6 +87,14 @@ if (file_exists($jsonPath)) {
     <header class="hud-header">
         <h1 class="hud-title">กระดานบิงโกของฉัน</h1>
         <div class="hud-actions">
+            <button class="circle-btn" onclick="window.location.href='../../index.php'" title="กลับหน้าแรกหลัก">
+                <ion-icon name="home-outline"></ion-icon>
+            </button>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                <button class="circle-btn" onclick="window.location.href='index.php'" title="เครื่องควบคุมสุ่ม (Admin)" style="color: #facc15; border-color: rgba(250, 204, 21, 0.4); background: rgba(250, 204, 21, 0.1);">
+                    <ion-icon name="settings-outline"></ion-icon>
+                </button>
+            <?php endif; ?>
             <button class="circle-btn" id="btn-theme" onclick="toggleTheme()" title="เปลี่ยนธีม มืด/สว่าง">
                 <ion-icon name="moon-outline" id="theme-icon"></ion-icon>
             </button>
@@ -69,8 +117,10 @@ if (file_exists($jsonPath)) {
 
     <!-- FLOATING TABBAR -->
     <div class="floating-tabbar">
+        <a href="../../index.php" class="tab-item">หน้าแรกหลัก</a>
         <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
             <a href="index.php" class="tab-item">เครื่องสุ่มจับ</a>
+            <a href="../../admin.php" class="tab-item" style="color: #facc15;">คุมระบบ (Admin)</a>
         <?php endif; ?>
         <div class="tab-item active">กระดานเล่นบิงโก</div>
         <a href="../../dashboard.php" class="tab-item">หน้าควบคุมหลัก</a>
@@ -248,22 +298,55 @@ function generateNewCardForRound() {
     sndReset();
     stopFireworks();
     
-    // Select 24 random items from the master catalog
-    const shuffled = [...allItems];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
+    const realItems = allItems.filter(item => !item.decoy);
+    const decoyItems = allItems.filter(item => item.decoy);
     
-    // Take first 24 items
-    const selectedItems = shuffled.slice(0, 24);
+    let selectedItems = [];
+    
+    // 80% chance to generate an unlucky card (with decoys)
+    const isUnlucky = Math.random() < 0.8;
+    
+    if (isUnlucky && decoyItems.length > 0) {
+        // Unlucky card: contains 2-4 decoy items
+        const numDecoys = Math.floor(Math.random() * 3) + 2; // 2, 3, or 4 decoys
+        
+        // Shuffle decoyItems and select numDecoys
+        const shuffledDecoys = [...decoyItems];
+        for (let i = shuffledDecoys.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledDecoys[i], shuffledDecoys[j]] = [shuffledDecoys[j], shuffledDecoys[i]];
+        }
+        const selectedDecoys = shuffledDecoys.slice(0, numDecoys);
+        
+        // Shuffle realItems and select (24 - numDecoys)
+        const shuffledReals = [...realItems];
+        for (let i = shuffledReals.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledReals[i], shuffledReals[j]] = [shuffledReals[j], shuffledReals[i]];
+        }
+        const selectedReals = shuffledReals.slice(0, 24 - numDecoys);
+        
+        // Combine and shuffle the final 24 items
+        selectedItems = [...selectedDecoys, ...selectedReals];
+        for (let i = selectedItems.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [selectedItems[i], selectedItems[j]] = [selectedItems[j], selectedItems[i]];
+        }
+    } else {
+        // Lucky card: contains exactly all 24 real items (0 decoys)
+        const shuffledReals = [...realItems];
+        for (let i = shuffledReals.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledReals[i], shuffledReals[j]] = [shuffledReals[j], shuffledReals[i]];
+        }
+        selectedItems = shuffledReals;
+    }
     
     playerCard = [];
     let itemIdx = 0;
     
     for (let i = 0; i < 25; i++) {
         if (i === 12) {
-            // Free cell
             playerCard.push({ isFree: true, ticked: true });
         } else {
             const item = selectedItems[itemIdx++];

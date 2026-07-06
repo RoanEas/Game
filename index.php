@@ -112,7 +112,7 @@ if (isset($_GET['logout'])) { session_destroy(); header("Location: index.php"); 
     </a>
 
     <?php if(isset($_SESSION['user_id'])): ?>
-        <a href="index.php?logout=1" class="user-profile-pill">
+        <a href="dashboard.php" class="user-profile-pill" style="text-decoration: none;">
             <img src="assets/avatar/<?php echo htmlspecialchars($_SESSION['avatar_img'] ?? 'dog.png'); ?>" 
                  onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=1'" class="user-avatar" alt="Avatar">
             <div class="user-info">
@@ -164,13 +164,13 @@ if (isset($_GET['logout'])) { session_destroy(); header("Location: index.php"); 
                 <div class="play-pill">PLAY</div>
             </a>
 
-            <!-- Placeholder Cards for aesthetic grid filling -->
-            <div class="game-card card-purple" style="opacity: 0.5; cursor: default;">
-                <ion-icon name="extension-puzzle" class="game-icon"></ion-icon>
-                <div class="game-title">COMING SOON</div>
-                <div class="game-desc">ภารกิจปริศนาใหม่กำลังถูกเข้ารหัส...</div>
-                <div class="play-pill" style="opacity:0.3;">LOCKED</div>
-            </div>
+            <!-- Heads Up Cyber -->
+            <a href="games/head_guess/index.php" class="game-card card-purple" <?php if(!isset($_SESSION['user_id'])) echo 'onclick="event.preventDefault(); switchTab(\'tab-login\', document.querySelector(\'[data-tab=\\\'tab-login\\\']\'));"'; ?>>
+                <ion-icon name="phone-portrait" class="game-icon"></ion-icon>
+                <div class="game-title">ทายคำบนหัว</div>
+                <div class="game-desc">ถือโทรศัพท์ทาบหน้าผาก ใบ้คำสุดมันส์กับเพื่อนๆ</div>
+                <div class="play-pill">PLAY</div>
+            </a>
 
         </div>
     </div>
@@ -272,6 +272,18 @@ if (isset($_GET['logout'])) { session_destroy(); header("Location: index.php"); 
                 <ion-icon name="person-add"></ion-icon>
                 <span>JOIN</span>
             </button>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <a href="admin.php" class="dock-btn" style="text-decoration: none; color: #facc15;">
+                <ion-icon name="settings"></ion-icon>
+                <span>ADMIN</span>
+            </a>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['user_id'])): ?>
+            <a href="index.php?logout=1" class="dock-btn" style="text-decoration: none; color: var(--neon-pink);">
+                <ion-icon name="log-out-outline"></ion-icon>
+                <span>LOGOUT</span>
+            </a>
         <?php endif; ?>
     </nav>
 </div>

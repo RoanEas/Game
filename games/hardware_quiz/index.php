@@ -60,11 +60,43 @@ $itemsData = json_decode($itemsJson, true);
 if (!is_array($itemsData)) {
     $itemsData = ["items" => []];
 }
+$needsWrite = false;
 if (!isset($itemsData['round_id'])) {
     $itemsData['round_id'] = uniqid('r_', true);
-    file_put_contents($jsonPath, json_encode($itemsData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-    $itemsJson = json_encode($itemsData);
+    $needsWrite = true;
 }
+
+// Define the 5 decoy items
+$decoys = [
+    ["id" => 25, "name" => "เครื่องปริ้นเตอร์ 3 มิติ", "image" => "https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&w=300&q=80", "decoy" => true],
+    ["id" => 26, "name" => "แว่น VR", "image" => "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=300&q=80", "decoy" => true],
+    ["id" => 27, "name" => "พล็อตเตอร์", "image" => "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=300&q=80", "decoy" => true],
+    ["id" => 28, "name" => "การ์ดเสียง", "image" => "https://images.unsplash.com/photo-1580584126903-c17d41830450?auto=format&fit=crop&w=300&q=80", "decoy" => true],
+    ["id" => 29, "name" => "เครื่องสำรองไฟ (UPS)", "image" => "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=300&q=80", "decoy" => true]
+];
+$existingIds = array_column($itemsData['items'], 'id');
+foreach ($decoys as $decoy) {
+    if (!in_array($decoy['id'], $existingIds)) {
+        $itemsData['items'][] = $decoy;
+        $needsWrite = true;
+    }
+}
+
+if (!isset($itemsData['draw_sequence']) || empty($itemsData['draw_sequence'])) {
+    $itemIds = [];
+    foreach (($itemsData['items'] ?? []) as $item) {
+        if (empty($item['decoy'])) {
+            $itemIds[] = intval($item['id']);
+        }
+    }
+    shuffle($itemIds);
+    $itemsData['draw_sequence'] = $itemIds;
+    $needsWrite = true;
+}
+if ($needsWrite) {
+    file_put_contents($jsonPath, json_encode($itemsData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+}
+$itemsJson = json_encode($itemsData);
 $isAdmin = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin');
 
 ?>
@@ -134,6 +166,9 @@ $isAdmin = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin');
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                     <h1 class="hud-title" style="font-size: 1.25rem;">เครื่องสุ่มจับบิงโก</h1>
                     <div class="hud-actions">
+                        <button class="circle-btn" onclick="window.location.href='../../index.php'" title="กลับหน้าแรกหลัก">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </button>
                         <button class="circle-btn" id="btn-theme" onclick="toggleTheme()" title="เปลี่ยนธีม มืด/สว่าง">
                             <ion-icon name="moon-outline" id="theme-icon"></ion-icon>
                         </button>
@@ -556,13 +591,27 @@ function renderSheetList() {
 
 // Initializer
 function initializePool() {
-    itemsPool = [...allItems];
-    // Shuffle Pool
-    for (let i = itemsPool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [itemsPool[i], itemsPool[j]] = [itemsPool[j], itemsPool[i]];
+    const seq = RAW.draw_sequence || [];
+    const drawnIds = RAW.drawn_ids || [];
+    
+    // Map sequence IDs to item objects
+    let seqItems = seq.map(id => allItems.find(x => x.id === id)).filter(Boolean);
+    
+    // If sequence is not set (legacy or fallback), shuffle locally
+    if (seqItems.length === 0) {
+        seqItems = [...allItems];
+        for (let i = seqItems.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [seqItems[i], seqItems[j]] = [seqItems[j], seqItems[i]];
+        }
     }
-    drawnItems = [];
+    
+    // drawnItems are the ones in seqItems that are already in drawnIds
+    drawnItems = seqItems.filter(item => drawnIds.includes(item.id));
+    
+    // itemsPool are the ones in seqItems that are NOT yet in drawnIds, in reverse order (since we pop() from pool)
+    const remaining = seqItems.filter(item => !drawnIds.includes(item.id));
+    itemsPool = remaining.reverse();
 }
 
 // Close the fly-in zoom overlay and return to standard view
@@ -714,28 +763,40 @@ function resetBingoGame() {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ action: 'new_round' })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Update RAW state dynamically
+            RAW.round_id = data.round_id;
+            RAW.draw_sequence = data.draw_sequence;
+            RAW.drawn_ids = data.drawn_ids;
+            
+            sndReset();
+            initializePool();
+            stopFireworks();
+            
+            // UI elements reset
+            document.getElementById('btn-draw').disabled = false;
+            document.getElementById('caller-status').textContent = "พร้อมเริ่มจับรางวัล";
+            document.getElementById('display-placeholder').style.display = 'block';
+            document.getElementById('display-image').style.display = 'none';
+            document.getElementById('display-image').src = '';
+            document.getElementById('display-name').textContent = "กดสุ่มจับเพื่อลุ้นกันเลย!";
+            document.getElementById('display-pod').classList.remove('reveal-bounce');
+            document.getElementById('progress-text').textContent = "0/24";
+            
+            document.getElementById('zoom-overlay').classList.remove('active');
+            document.getElementById('flash-effect-screen').classList.remove('flash-active');
+            
+            closeHistorySheet();
+            closeCompleteModal();
+            closeBingoBoard();
+            
+            // Re-render editor sheet
+            renderSheetList();
+        }
     });
-    
-    sndReset();
-    initializePool();
-    stopFireworks();
-    
-    // UI elements reset
-    document.getElementById('btn-draw').disabled = false;
-    document.getElementById('caller-status').textContent = "พร้อมเริ่มจับรางวัล";
-    document.getElementById('display-placeholder').style.display = 'block';
-    document.getElementById('display-image').style.display = 'none';
-    document.getElementById('display-image').src = '';
-    document.getElementById('display-name').textContent = "กดสุ่มจับเพื่อลุ้นกันเลย!";
-    document.getElementById('display-pod').classList.remove('reveal-bounce');
-    document.getElementById('progress-text').textContent = "0/24";
-    
-    document.getElementById('zoom-overlay').classList.remove('active');
-    document.getElementById('flash-effect-screen').classList.remove('flash-active');
-    
-    closeHistorySheet();
-    closeCompleteModal();
-    closeBingoBoard();
 }
 
 
