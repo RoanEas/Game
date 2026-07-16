@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `blitz_players` (
 
 -- Insert default admin user (password is 'admin')
 INSERT INTO `users` (`username`, `email`, `password`, `real_name`, `avatar_img`, `is_avatar_created`, `score`, `role`)
-VALUES ('admin', 'admin@clubgame.com', '$2y$10$MzMBrY0RbFILl9HR.9QTYeU9xUHa0xHGT9MVO.QVW8STJTjeOyXDG', 'Administrator', 'dog.png', 1, 0, 'admin')
+VALUES ('admin', 'admin@clubgame.com', '$2y$10$sXKQi7spI028jlkRLHa6LOHiTNab2M7Uhx/sa8EnQ4stcmN7lXAlm', 'Administrator', 'dog.png', 1, 0, 'admin')
 ON DUPLICATE KEY UPDATE `username`=`username`;
 
 -- Insert default games

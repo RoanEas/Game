@@ -258,6 +258,14 @@ if (isset($_GET['logout'])) { session_destroy(); header("Location: index.php"); 
                 <div class="play-pill" style="background-color: #1db954; color:#000;">STREAM</div>
             </a>
 
+            <!-- Lightning Quiz (ปริศนาสายฟ้า) -->
+            <a href="games/blitz_quiz/index.php" class="game-card card-cyan" <?php if(!isset($_SESSION['user_id'])) echo 'onclick="event.preventDefault(); switchTab(\'tab-login\', document.querySelector(\'[data-tab=\\\'tab-login\\\']\'));"'; ?>>
+                <ion-icon name="flash" class="game-icon" style="color: var(--neon-cyan);"></ion-icon>
+                <div class="game-title">ปริศนาสายฟ้า</div>
+                <div class="game-desc">ตอบคำถามเก็บคะแนนสะสมไต่บันไดความสูง 10 ขั้น</div>
+                <div class="play-pill" style="background-color: var(--neon-cyan); color:#000;">PLAY</div>
+            </a>
+
         </div>
     </div>
 
