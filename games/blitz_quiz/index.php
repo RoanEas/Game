@@ -79,13 +79,13 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || $_SESSION['role
                         <path id="lightning-path" d="M 50 0 L 35 60 L 65 120 L 30 180 L 70 240 L 35 300 L 65 360 L 30 420 L 70 480 L 40 520 L 50 560" />
                     </svg>
                     
-                    ${[1,2,3,4,5,6,7,8,9,10].map(level => `
-                        <div class="ladder-step" id="level-${level}">
+                    <?php for ($level = 1; $level <= 10; $level++): ?>
+                        <div class="ladder-step" id="level-<?php echo $level; ?>">
                             <div class="step-glow"></div>
-                            <span>ขั้นที่ ${level}</span>
-                            <span>${level} PTS</span>
+                            <span>ขั้นที่ <?php echo $level; ?></span>
+                            <span><?php echo $level; ?> PTS</span>
                         </div>
-                    `).join('')}
+                    <?php endfor; ?>
                 </div>
             </div>
             
