@@ -18,62 +18,111 @@ $jsonPath = dirname(__DIR__, 2) . '/data/bingo_items.json';
 // Initialize default items if JSON file doesn't exist
 if (!file_exists($jsonPath)) {
     $defaultItems = [
-        ["id" => 1, "name" => "หน่วยความจำ", "image" => "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 2, "name" => "อีดิท", "image" => "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 3, "name" => "ข้อมูล", "image" => "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 4, "name" => "เครื่องอ่านบาร์โค้ด", "image" => "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 5, "name" => "อินเทอร์เน็ต", "image" => "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=300&q=80"],
+        ["id" => 1, "name" => "หน่วยความจำ", "image" => "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=300&q=80", "clue" => "ชิปอิเล็กทรอนิกส์ใช้เก็บคำสั่งหรือข้อมูลชั่วคราวระหว่างคอมทำงาน"],
+        ["id" => 2, "name" => "อีดิท", "image" => "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?auto=format&fit=crop&w=300&q=80", "clue" => "กระบวนการปรับแต่ง แก้ไข คัดเขียนสิ่งเดิมให้ดีขึ้นหรือเหมาะสมขึ้น"],
+        ["id" => 3, "name" => "ข้อมูล", "image" => "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=300&q=80", "clue" => "ข้อเท็จจริง ตัวเลข หรือภาพดิบๆ ที่ยังไม่ได้ผ่านการประมวลผล"],
+        ["id" => 4, "name" => "เครื่องอ่านบาร์โค้ด", "image" => "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=300&q=80", "clue" => "อุปกรณ์รับข้อมูลประเภทแสง ใช้ยิงกวาดอ่านเส้นรหัสแท่งสีดำบนหีบห่อสินค้า"],
+        ["id" => 5, "name" => "อินเทอร์เน็ต", "image" => "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=300&q=80", "clue" => "เครือข่ายคอมพิวเตอร์ขนาดใหญ่ที่เชื่อมต่อคอมพิวเตอร์และเซิร์ฟเวอร์ทั่วโลก"],
         
-        ["id" => 6, "name" => "แรม", "image" => "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 7, "name" => "คีย์บอร์ด", "image" => "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 8, "name" => "หูฟัง", "image" => "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 9, "name" => "แผ่นเสียง", "image" => "https://images.unsplash.com/photo-1539625319135-8d6b9e86fcf7?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 10, "name" => "สื่อจัดเก็บข้อมูล", "image" => "https://images.unsplash.com/photo-1597852074816-d933c4d2b988?auto=format&fit=crop&w=300&q=80"],
+        ["id" => 6, "name" => "แรม", "image" => "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=300&q=80", "clue" => "หน่วยความจำชั่วคราวความเร็วสูง ที่ข้อมูลจะลบหายไปทันทีที่ไฟฟ้าดับหรือปิดเครื่อง"],
+        ["id" => 7, "name" => "คีย์บอร์ด", "image" => "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=300&q=80", "clue" => "อุปกรณ์นำเข้าหลักรูปแบบปุ่มกดตัวอักษร ตัวเลข และเครื่องหมายต่าง ๆ"],
+        ["id" => 8, "name" => "หูฟัง", "image" => "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=300&q=80", "clue" => "อุปกรณ์แสดงผลเสียงขนาดเล็กใช้สวมครอบหัวหรือสวมในหูเพื่อฟังส่วนตัว"],
+        ["id" => 9, "name" => "แผ่นเสียง", "image" => "https://images.unsplash.com/photo-1539625319135-8d6b9e86fcf7?auto=format&fit=crop&w=300&q=80", "clue" => "แผ่นอนาล็อกกลมแบนมีร่องวงกลมสำหรับบันทึกเสียงโบราณ ใช้กับเครื่องเล่นจานหมุน"],
+        ["id" => 10, "name" => "สื่อจัดเก็บข้อมูล", "image" => "https://images.unsplash.com/photo-1597852074816-d933c4d2b988?auto=format&fit=crop&w=300&q=80", "clue" => "คำเรียกกลุ่มอุปกรณ์ทั้งหมดที่ใช้เก็บบันทึกข้อมูลดิจิทัลถาวร"],
         
-        ["id" => 11, "name" => "พาวเวอร์ซัพพลาย", "image" => "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 12, "name" => "พาสเวิร์ด", "image" => "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 13, "name" => "สแกนเนอร์", "image" => "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 14, "name" => "เอเร่อ", "image" => "https://images.unsplash.com/photo-1594322436404-5a0526db4d13?auto=format&fit=crop&w=300&q=80"],
+        ["id" => 11, "name" => "พาวเวอร์ซัพพลาย", "image" => "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=300&q=80", "clue" => "อุปกรณ์แปลงกระแสไฟฟ้าบ้านเป็นไฟฟ้ากระแสตรงเพื่อเลี้ยงอุปกรณ์คอมพิวเตอร์"],
+        ["id" => 12, "name" => "พาสเวิร์ด", "image" => "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=300&q=80", "clue" => "รหัสลับส่วนตัวที่เป็นกุญแจหลักชั้นแรกสำหรับระบบความปลอดภัยในการเข้าระบบ"],
+        ["id" => 13, "name" => "สแกนเนอร์", "image" => "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=300&q=80", "clue" => "อุปกรณ์ใช้แสงอ่านกวาดแปลงภาพวาดหรือเอกสารกระดาษเป็นไฟล์ดิจิทัล"],
+        ["id" => 14, "name" => "เอเร่อ", "image" => "https://images.unsplash.com/photo-1594322436404-5a0526db4d13?auto=format&fit=crop&w=300&q=80", "clue" => "หน้าต่างแจ้งเตือนข้อผิดพลาดขัดข้องของระบบปฏิบัติการหรือโปรแกรมคอมพิวเตอร์"],
         
-        ["id" => 15, "name" => "ดาวน์โหลด", "image" => "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 16, "name" => "ซีพียู", "image" => "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 17, "name" => "เคส", "image" => "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 18, "name" => "ฮาร์ดดิสก์", "image" => "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 19, "name" => "ซอฟต์แวร์", "image" => "https://images.unsplash.com/photo-1605379399642-870262d3d051?auto=format&fit=crop&w=300&q=80"],
+        ["id" => 15, "name" => "ดาวน์โหลด", "image" => "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80", "clue" => "กระบวนการดึงหรือคัดลอกไฟล์ข้อมูลจากระบบอินเทอร์เน็ตเข้ามาเก็บในคอม"],
+        ["id" => 16, "name" => "ซีพียู", "image" => "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=300&q=80", "clue" => "ชิปหน่วยประมวลผลกลาง ทำหน้าที่คิดและคำนวณ เปรียบเหมือนสมองคอมพิวเตอร์"],
+        ["id" => 17, "name" => "เคส", "image" => "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=300&q=80", "clue" => "โครงกล่องภายนอกใช้บรรจุ ยึดจับ และป้องกันอุปกรณ์อิเล็กทรอนิกส์ทั้งหมดของคอม"],
+        ["id" => 18, "name" => "ฮาร์ดดิสก์", "image" => "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=300&q=80", "clue" => "อุปกรณ์เก็บข้อมูลหลักที่มีจานจานโลหะแม่เหล็กหมุนความเร็วสูงภายใน"],
+        ["id" => 19, "name" => "ซอฟต์แวร์", "image" => "https://images.unsplash.com/photo-1605379399642-870262d3d051?auto=format&fit=crop&w=300&q=80", "clue" => "กลุ่มโปรแกรมหรือชุดคำสั่งที่เขียนขึ้นเพื่อสั่งให้คอมพิวเตอร์ทำงานตามต้องการ"],
         
-        ["id" => 20, "name" => "การ์ดแสดงผล", "image" => "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 21, "name" => "ซีดี", "image" => "https://images.unsplash.com/photo-1528642474498-1af0c17fd8c3?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 22, "name" => "ไมโครโฟน", "image" => "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 23, "name" => "ยูสเซอร์เนม", "image" => "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80"],
-        ["id" => 24, "name" => "จอภาพ", "image" => "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=300&q=80"]
+        ["id" => 20, "name" => "การ์ดแสดงผล", "image" => "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=300&q=80", "clue" => "ชิปหรือการ์ดเร่งความเร็วประมวลผลภาพ 3D และส่งสัญญาณภาพออกจอคอม"],
+        ["id" => 21, "name" => "ซีดี", "image" => "https://images.unsplash.com/photo-1528642474498-1af0c17fd8c3?auto=format&fit=crop&w=300&q=80", "clue" => "แผ่นออปติคัลดิสก์ใช้แสงเลเซอร์อ่านเขียนข้อมูลดิจิทัล เหมาะสำหรับเพลงและซอฟต์แวร์"],
+        ["id" => 22, "name" => "ไมโครโฟน", "image" => "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=300&q=80", "clue" => "อุปกรณ์รับสัญญาณเสียงคลื่นอนาล็อกและแปลงเป็นสัญญาณไฟฟ้าดิจิทัลบันทึกในคอม"],
+        ["id" => 23, "name" => "ยูสเซอร์เนม", "image" => "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80", "clue" => "ชื่อระบุตัวตนของผู้ใช้ที่ใช้ควบคู่กับรหัสผ่านเพื่อล็อกอินเข้าระบบ"],
+        ["id" => 24, "name" => "จอภาพ", "image" => "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=300&q=80", "clue" => "อุปกรณ์ส่งออกหลักประเภทแสดงผลลัพธ์ข้อมูลภาพ กราฟิก และข้อความให้สายตามองเห็น"]
     ];
     
     $dataDir = dirname(__DIR__, 2) . '/data';
     if (!is_dir($dataDir)) {
         mkdir($dataDir, 0777, true);
     }
-    file_put_contents($jsonPath, json_encode(["items" => $defaultItems], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    file_put_contents($jsonPath, json_encode(["items" => $defaultItems, "question_mode" => false, "is_revealed" => true], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 }
 
 $itemsJson = file_get_contents($jsonPath);
 $itemsData = json_decode($itemsJson, true);
 if (!is_array($itemsData)) {
-    $itemsData = ["items" => []];
+    $itemsData = ["items" => [], "question_mode" => false, "is_revealed" => true];
 }
 $needsWrite = false;
 if (!isset($itemsData['round_id'])) {
     $itemsData['round_id'] = uniqid('r_', true);
     $needsWrite = true;
 }
+if (!isset($itemsData['question_mode'])) {
+    $itemsData['question_mode'] = false;
+    $needsWrite = true;
+}
+if (!isset($itemsData['is_revealed'])) {
+    $itemsData['is_revealed'] = true;
+    $needsWrite = true;
+}
 
 // Define the 5 decoy items
 $decoys = [
-    ["id" => 25, "name" => "เครื่องปริ้นเตอร์ 3 มิติ", "image" => "https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&w=300&q=80", "decoy" => true],
-    ["id" => 26, "name" => "แว่น VR", "image" => "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=300&q=80", "decoy" => true],
-    ["id" => 27, "name" => "พล็อตเตอร์", "image" => "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=300&q=80", "decoy" => true],
-    ["id" => 28, "name" => "การ์ดเสียง", "image" => "https://images.unsplash.com/photo-1580584126903-c17d41830450?auto=format&fit=crop&w=300&q=80", "decoy" => true],
-    ["id" => 29, "name" => "เครื่องสำรองไฟ (UPS)", "image" => "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=300&q=80", "decoy" => true]
+    ["id" => 25, "name" => "เครื่องปริ้นเตอร์ 3 มิติ", "image" => "https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&w=300&q=80", "decoy" => true, "clue" => "อุปกรณ์พิมพ์วัตถุขึ้นมาเป็นรูปทรงสามมิติที่จับต้องได้จากการฉีดเส้นพลาสติก"],
+    ["id" => 26, "name" => "แว่น VR", "image" => "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=300&q=80", "decoy" => true, "clue" => "อุปกรณ์สวมศีรษะจำลองภาพแวดล้อมเสมือนจริง 3 มิติ แบบ 360 องศา"],
+    ["id" => 27, "name" => "พล็อตเตอร์", "image" => "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=300&q=80", "decoy" => true, "clue" => "เครื่องพิมพ์ขนาดใหญ่พิเศษใช้ปากกาขีดเขียนเส้นวาดแบบแปลนสถาปัตยกรรม"],
+    ["id" => 28, "name" => "การ์ดเสียง", "image" => "https://images.unsplash.com/photo-1580584126903-c17d41830450?auto=format&fit=crop&w=300&q=80", "decoy" => true, "clue" => "บอร์ดวงจรขยายประมวลผลสัญญาณเสียงเพื่อต่อลำโพงและเครื่องดนตรีระดับมืออาชีพ"],
+    ["id" => 29, "name" => "เครื่องสำรองไฟ (UPS)", "image" => "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=300&q=80", "decoy" => true, "clue" => "เครื่องมีแบตเตอรี่ภายในจ่ายไฟฉุกเฉินเพื่อให้คอมไม่ดับและปิดเครื่องได้ทันเมื่อไฟดับ"]
 ];
+
+// Verify clues exist on old items (migration)
+$clueMap = [
+    1 => "ชิปอิเล็กทรอนิกส์ใช้เก็บคำสั่งหรือข้อมูลชั่วคราวระหว่างคอมทำงาน",
+    2 => "กระบวนการปรับแต่ง แก้ไข คัดเขียนสิ่งเดิมให้ดีขึ้นหรือเหมาะสมขึ้น",
+    3 => "ข้อเท็จจริง ตัวเลข หรือภาพดิบๆ ที่ยังไม่ได้ผ่านการประมวลผล",
+    4 => "อุปกรณ์รับข้อมูลประเภทแสง ใช้ยิงกวาดอ่านเส้นรหัสแท่งสีดำบนหีบห่อสินค้า",
+    5 => "เครือข่ายคอมพิวเตอร์ขนาดใหญ่ที่เชื่อมต่อคอมพิวเตอร์และเซิร์ฟเวอร์ทั่วโลก",
+    6 => "หน่วยความจำชั่วคราวความเร็วสูง ที่ข้อมูลจะลบหายไปทันทีที่ไฟฟ้าดับหรือปิดเครื่อง",
+    7 => "อุปกรณ์นำเข้าหลักรูปแบบปุ่มกดตัวอักษร ตัวเลข และเครื่องหมายต่าง ๆ",
+    8 => "อุปกรณ์แสดงผลเสียงขนาดเล็กใช้สวมครอบหัวหรือสวมในหูเพื่อฟังส่วนตัว",
+    9 => "แผ่นอนาล็อกกลมแบนมีร่องวงกลมสำหรับบันทึกเสียงโบราณ ใช้กับเครื่องเล่นจานหมุน",
+    10 => "คำเรียกกลุ่มอุปกรณ์ทั้งหมดที่ใช้เก็บันทึกข้อมูลดิจิทัลถาวร",
+    11 => "อุปกรณ์แปลงกระแสไฟฟ้าบ้านเป็นไฟฟ้ากระแสตรงเพื่อเลี้ยงอุปกรณ์คอมพิวเตอร์",
+    12 => "รหัสลับส่วนตัวที่เป็นกุญแจหลักชั้นแรกสำหรับระบบความปลอดภัยในการเข้าระบบ",
+    13 => "อุปกรณ์ใช้แสงอ่านกวาดแปลงภาพวาดหรือเอกสารกระดาษเป็นไฟล์ดิจิทัล",
+    14 => "หน้าต่างแจ้งเตือนข้อผิดพลาดขัดข้องของระบบปฏิบัติการหรือโปรแกรมคอมพิวเตอร์",
+    15 => "กระบวนการดึงหรือคัดลอกไฟล์ข้อมูลจากระบบอินเทอร์เน็ตเข้ามาเก็บในคอม",
+    16 => "ชิปหน่วยประมวลผลกลาง ทำหน้าที่คิดและคำนวณ เปรียบเหมือนสมองคอมพิวเตอร์",
+    17 => "โครงกล่องภายนอกใช้บรรจุ ยึดจับ และป้องกันอุปกรณ์อิเล็กทรอนิกส์ทั้งหมดของคอม",
+    18 => "อุปกรณ์เก็บข้อมูลหลักที่มีจานจานโลหะแม่เหล็กหมุนความเร็วสูงภายใน",
+    19 => "กลุ่มโปรแกรมหรือชุดคำสั่งที่เขียนขึ้นเพื่อสั่งให้คอมพิวเตอร์ทำงานตามต้องการ",
+    20 => "ชิปหรือการ์ดเร่งความเร็วประมวลผลภาพ 3D และส่งสัญญาณภาพออกจอคอม",
+    21 => "แผ่นออปติคัลดิสก์ใช้แสงเลเซอร์อ่านเขียนข้อมูลดิจิทัล เหมาะสำหรับเพลงและซอฟต์แวร์",
+    22 => "อุปกรณ์รับสัญญาณเสียงคลื่นอนาล็อกและแปลงเป็นสัญญาณไฟฟ้าดิจิทัลบันทึกในคอม",
+    23 => "ชื่อระบุตัวตนของผู้ใช้ที่ใช้ควบคู่กับรหัสผ่านเพื่อล็อกอินเข้าระบบ",
+    24 => "อุปกรณ์ส่งออกหลักประเภทแสดงผลลัพธ์ข้อมูลภาพ กราฟิก และข้อความให้สายตามองเห็น",
+    25 => "อุปกรณ์พิมพ์วัตถุขึ้นมาเป็นรูปทรงสามมิติที่จับต้องได้จากการฉีดเส้นพลาสติก",
+    26 => "อุปกรณ์สวมศีรษะจำลองภาพแวดล้อมเสมือนจริง 3 มิติ แบบ 360 องศา",
+    27 => "เครื่องพิมพ์ขนาดใหญ่พิเศษใช้ปากกาขีดเขียนเส้นวาดแบบแปลนสถาปัตยกรรม",
+    28 => "บอร์ดวงจรขยายประมวลผลสัญญาณเสียงเพื่อต่อลำโพงและเครื่องดนตรีระดับมืออาชีพ",
+    29 => "เครื่องมีแบตเตอรี่ภายในจ่ายไฟฉุกเฉินเพื่อให้คอมไม่ดับและปิดเครื่องได้ทันเมื่อไฟดับ"
+];
+
+foreach ($itemsData['items'] as &$it) {
+    if (!isset($it['clue']) && isset($clueMap[$it['id']])) {
+        $it['clue'] = $clueMap[$it['id']];
+        $needsWrite = true;
+    }
+}
+unset($it);
 $existingIds = array_column($itemsData['items'], 'id');
 foreach ($decoys as $decoy) {
     if (!in_array($decoy['id'], $existingIds)) {
@@ -236,11 +285,25 @@ $isAdmin = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin');
 
                 <div class="item-name" id="display-name" style="font-size: 1.8rem; margin: 10px 0;">กดสุ่มจับเพื่อลุ้นกันเลย!</div>
 
-                <!-- MAIN BUTTON -->
-                <button class="btn-draw" id="btn-draw" onclick="drawNextItem()" style="font-size: 1.15rem; padding: 18px 28px;">
-                    <ion-icon name="sparkles-outline" style="font-size: 24px;"></ion-icon>
-                    🎲 สุ่มจับอุปกรณ์ถัดไป
-                </button>
+                <!-- QUIZ MODE TOGGLE -->
+                <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px; font-size: 0.9rem; font-weight: bold; background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); padding: 8px 16px; border-radius: 12px;">
+                    <input type="checkbox" id="chk-quiz-mode" onchange="onQuizModeToggle(this)" style="width:16px;height:16px;cursor:pointer;">
+                    <label for="chk-quiz-mode" style="cursor:pointer; color: var(--text-main); display:flex; align-items:center; gap:4px;">
+                        <ion-icon name="help-circle-outline" style="color:var(--accent); font-size:1.1rem;"></ion-icon>
+                        💡 โหมดคำถามใบ้ (Quiz Mode)
+                    </label>
+                </div>
+
+                <!-- MAIN BUTTONS ROW -->
+                <div style="display: flex; gap: 8px; width: 100%; margin-top: 10px;">
+                    <button class="btn-draw" id="btn-draw" onclick="drawNextItem()" style="font-size: 1.15rem; padding: 18px 28px; flex: 1;">
+                        <ion-icon name="sparkles-outline" style="font-size: 24px;"></ion-icon>
+                        🎲 สุ่มจับอุปกรณ์ถัดไป
+                    </button>
+                    <button class="btn-secondary" id="btn-reveal" onclick="revealCurrentAnswer()" style="flex: 0 0 auto; display: none; padding: 0 20px; font-weight: 800; border-color: var(--accent); color: var(--accent); border-radius: 14px; font-size: 0.9rem; align-items: center; gap: 4px; margin: 0;" title="เฉลยคำตอบให้ผู้เล่นเห็น">
+                        <ion-icon name="eye-outline" style="font-size:1.2rem;"></ion-icon> เฉลยรางวัล
+                    </button>
+                </div>
 
                 <!-- SUB ACTIONS -->
                 <div class="sub-actions">
@@ -612,6 +675,57 @@ function initializePool() {
     // itemsPool are the ones in seqItems that are NOT yet in drawnIds, in reverse order (since we pop() from pool)
     const remaining = seqItems.filter(item => !drawnIds.includes(item.id));
     itemsPool = remaining.reverse();
+
+    // Initialize Quiz Mode Checkbox and Reveal Button State
+    const chkQuiz = document.getElementById('chk-quiz-mode');
+    if (chkQuiz) {
+        chkQuiz.checked = RAW.question_mode || false;
+    }
+    updateRevealButtonState();
+}
+
+function onQuizModeToggle(chk) {
+    fetch('api_save.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ action: 'toggle_quiz_mode', enabled: chk.checked })
+    }).then(r => r.json()).then(data => {
+        if (data.status === 'success') {
+            RAW.question_mode = chk.checked;
+            updateRevealButtonState();
+        }
+    });
+}
+
+function revealCurrentAnswer() {
+    fetch('api_save.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ action: 'reveal_item' })
+    }).then(r => r.json()).then(data => {
+        if (data.status === 'success') {
+            RAW.is_revealed = true;
+            updateRevealButtonState();
+            
+            // Instantly render sheet list and update status
+            renderSheetList();
+            const latestItem = drawnItems[drawnItems.length - 1];
+            if (latestItem) {
+                document.getElementById('caller-status').textContent = `เฉลยเรียบร้อย (ชิ้นที่ ${drawnItems.length} / 24)`;
+            }
+        }
+    });
+}
+
+function updateRevealButtonState() {
+    const btnReveal = document.getElementById('btn-reveal');
+    if (!btnReveal) return;
+    
+    if (RAW.question_mode && drawnItems.length > 0 && !RAW.is_revealed) {
+        btnReveal.style.display = 'inline-flex';
+    } else {
+        btnReveal.style.display = 'none';
+    }
 }
 
 // Close the fly-in zoom overlay and return to standard view
@@ -633,7 +747,7 @@ function closeZoomReveal() {
     
     if (latestItem) {
         displayImage.src = getImageUrl(latestItem.image);
-        displayName.textContent = latestItem.name;
+        displayName.innerHTML = `${latestItem.name}<br><span style="font-size:0.85rem;color:var(--text-muted);font-weight:400;font-style:italic;">คำใบ้: ${latestItem.clue || 'ไม่มีคำใบ้'}</span>`;
         statusPill.textContent = `สุ่มได้ชิ้นที่ ${drawnItems.length} / 24`;
         displayPod.classList.add('reveal-bounce');
         
@@ -641,7 +755,6 @@ function closeZoomReveal() {
         document.getElementById('progress-text').textContent = `${drawnItems.length}/24`;
     }
 
-    
     // Re-enable draw button if there are items left
     if (itemsPool.length > 0) {
         document.getElementById('btn-draw').disabled = false;
@@ -694,6 +807,9 @@ function drawNextItem() {
             const drawnItem = itemsPool.pop();
             drawnItems.push(drawnItem);
             
+            RAW.is_revealed = RAW.question_mode ? false : true;
+            updateRevealButtonState();
+            
             // Sync drawn item ID to the server to prevent client cheating
             fetch('api_save.php', {
                 method: 'POST',
@@ -709,7 +825,7 @@ function drawNextItem() {
 
             
             zoomImage.src = getImageUrl(drawnItem.image);
-            zoomName.textContent = drawnItem.name;
+            zoomName.innerHTML = `${drawnItem.name}<br><span style="font-size:1.05rem;color:#facc15;font-weight:bold;display:block;margin-top:10px;line-height:1.4;">คำใบ้: ${drawnItem.clue || 'ไม่มีคำใบ้'}</span>`;
 
             
             // Trigger overlay and screen flash
@@ -749,8 +865,9 @@ function toggleAutoPlay() {
 }
 
 // Reset Game
-function resetBingoGame() {
-    if (!confirm("คุณต้องการเริ่มเกมรอบใหม่ใช่หรือไม่? (กระดานและผลการสุ่มของทุกคนจะเริ่มใหม่ทั้งหมด)")) return;
+async function resetBingoGame() {
+    const userConfirmed = await showCustomConfirm();
+    if (!userConfirmed) return;
 
     if (autoPlayInterval) {
         clearInterval(autoPlayInterval);
@@ -771,6 +888,7 @@ function resetBingoGame() {
             RAW.round_id = data.round_id;
             RAW.draw_sequence = data.draw_sequence;
             RAW.drawn_ids = data.drawn_ids;
+            RAW.is_revealed = true;
             
             sndReset();
             initializePool();
@@ -1124,8 +1242,54 @@ async function syncWinnersAndState() {
 // Start polling
 setInterval(syncWinnersAndState, 2000);
 syncWinnersAndState();
+
+function showCustomConfirm() {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('custom-confirm-modal');
+        const okBtn = document.getElementById('confirm-ok-btn');
+        const cancelBtn = document.getElementById('confirm-cancel-btn');
+        
+        modal.style.display = 'flex';
+        
+        function handleOk() {
+            cleanup();
+            resolve(true);
+        }
+        
+        function handleCancel() {
+            cleanup();
+            resolve(false);
+        }
+        
+        function cleanup() {
+            okBtn.removeEventListener('click', handleOk);
+            cancelBtn.removeEventListener('click', handleCancel);
+            modal.style.display = 'none';
+        }
+        
+        okBtn.addEventListener('click', handleOk);
+        cancelBtn.addEventListener('click', handleCancel);
+    });
+}
 </script>
 
+<!-- 🛸 CUSTOM CONFIRM MODAL -->
+<div id="custom-confirm-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); backdrop-filter: blur(8px); z-index: 99999; justify-content: center; align-items: center; padding: 16px;">
+    <div style="background: #111422; border: 1px solid #1f2538; width: 100%; max-width: 400px; padding: 24px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; font-family: 'Prompt', sans-serif;">
+        <h3 style="font-family: 'Chakra Petch', sans-serif; font-size: 1.25rem; color: #fff; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <ion-icon name="alert-circle-outline" style="color: #ff453a; font-size: 1.6rem;"></ion-icon>
+            เริ่มเกมรอบใหม่
+        </h3>
+        <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 24px; line-height: 1.4;">
+            คุณต้องการเริ่มเกมรอบใหม่ใช่หรือไม่?<br>
+            <span style="color: #ff453a; font-weight: 700;">(กระดานและผลการสุ่มของทุกคนจะเริ่มใหม่ทั้งหมด)</span>
+        </p>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <button id="confirm-cancel-btn" class="btn-secondary" style="padding: 10px 20px; font-size: 0.85rem; border-radius: 10px; margin: 0; flex: 1; border: 1px solid var(--card-border); background: rgba(255,255,255,0.03); color: #fff; cursor: pointer;">ยกเลิก</button>
+            <button id="confirm-ok-btn" class="btn-primary" style="padding: 10px 20px; font-size: 0.85rem; border-radius: 10px; margin: 0; flex: 1; background: #ff453a; border-color: #ff453a; color: #fff; cursor: pointer;">ตกลง เริ่มใหม่</button>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

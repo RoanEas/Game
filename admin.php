@@ -7,6 +7,40 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 
+// ⚡ ระบบเพิ่มคำถาม ปริศนาสายฟ้า
+if (isset($_POST['add_blitz_question'])) {
+    $q_text = trim($_POST['question_text']);
+    $choices_raw = $_POST['choices'] ?? [];
+    
+    // Clean empty choices
+    $choices = [];
+    foreach ($choices_raw as $c) {
+        $c_clean = trim($c);
+        if (!empty($c_clean)) {
+            $choices[] = $c_clean;
+        }
+    }
+    
+    if (!empty($q_text) && count($choices) >= 2) {
+        $choices_json = json_encode($choices, JSON_UNESCAPED_UNICODE);
+        $stmt = $conn->prepare("INSERT INTO blitz_questions (question_text, choices) VALUES (?, ?)");
+        $stmt->bind_param("ss", $q_text, $choices_json);
+        $stmt->execute();
+    }
+    header("Location: admin.php#blitz-section");
+    exit();
+}
+
+// ⚡ ระบบลบคำถาม ปริศนาสายฟ้า
+if (isset($_GET['delete_blitz_question'])) {
+    $q_id = intval($_GET['delete_blitz_question']);
+    $stmt = $conn->prepare("DELETE FROM blitz_questions WHERE id = ?");
+    $stmt->bind_param("i", $q_id);
+    $stmt->execute();
+    header("Location: admin.php#blitz-section");
+    exit();
+}
+
 // 📈 เพิ่มระบบอัปเดตคะแนนผู้เล่นใหม่
 if (isset($_POST['update_score'])) {
     $user_id = $_POST['user_id'];
@@ -146,7 +180,91 @@ if (isset($_GET['toggle_status'])) {
         </table>
     </div>
 
+    <hr style="border-color: rgba(255,255,255,0.1); margin: 40px 0;">
+
+    <div class="admin-layout" id="blitz-section" style="margin-bottom: 50px;">
+        <div class="form-box">
+            <h2 style="color: #06b6d4;">⚡ เพิ่มคำถาม ปริศนาสายฟ้า</h2>
+            <form action="admin.php" method="POST" id="blitz-question-form">
+                <div class="input-group">
+                    <label>ข้อความคำถาม (Question Text)</label>
+                    <textarea name="question_text" rows="3" placeholder="ป้อนคำถามของคุณ..." required></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span>ตัวเลือกคำตอบ (Choices)</span>
+                        <button type="button" onclick="addChoiceInput()" style="background:#06b6d4; color:#000; border:none; padding:4px 10px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:0.8rem;">+ เพิ่มชอยส์</button>
+                    </label>
+                    <div id="choices-container" style="display:flex; flex-direction:column; gap:8px;">
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <input type="text" name="choices[]" placeholder="ตัวเลือกที่ 1..." required style="flex:1;">
+                        </div>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <input type="text" name="choices[]" placeholder="ตัวเลือกที่ 2..." required style="flex:1;">
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" name="add_blitz_question" class="btn-submit" style="background:#06b6d4; color:#000; border:none; font-weight:bold;">บันทึกคำถาม</button>
+            </form>
+        </div>
+
+        <div>
+            <h2>📝 รายการคำถามทั้งหมด</h2>
+            <div style="max-height: 500px; overflow-y: auto;">
+                <table class="minimal-table">
+                    <thead><tr><th>ID</th><th>คำถาม</th><th>ชอยส์คำตอบ</th><th style="text-align:right;">การจัดการ</th></tr></thead>
+                    <tbody>
+                        <?php
+                        $blitz_q_sql = "SELECT * FROM blitz_questions ORDER BY id DESC";
+                        $blitz_q_res = $conn->query($blitz_q_sql);
+                        if ($blitz_q_res && $blitz_q_res->num_rows > 0) {
+                            while($bq = $blitz_q_res->fetch_assoc()) {
+                                $bq_choices = json_decode($bq['choices'], true) ?? [];
+                                ?>
+                                <tr>
+                                    <td>#<?php echo $bq['id']; ?></td>
+                                    <td><strong style="color:#fff;"><?php echo htmlspecialchars($bq['question_text']); ?></strong></td>
+                                    <td>
+                                        <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                                            <?php foreach ($bq_choices as $choice): ?>
+                                                <span style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px; font-size:0.75rem; color:#cbd5e1;"><?php echo htmlspecialchars($choice); ?></span>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </td>
+                                    <td style="text-align:right;">
+                                        <a href="admin.php?delete_blitz_question=<?php echo $bq['id']; ?>" class="btn-action" style="color:#f87171;" onclick="return confirm('ลบคำถามนี้?')">ลบ</a>
+                                    </td>
+                                </tr>
+                            <?php } } else { ?>
+                                <tr><td colspan="4" style="text-align:center; color:#94a3b8;">ยังไม่มีคำถามในระบบ</td></tr>
+                            <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<script>
+function addChoiceInput() {
+    const container = document.getElementById('choices-container');
+    const childCount = container.children.length;
+    
+    const div = document.createElement('div');
+    div.style.display = 'flex';
+    div.style.gap = '8px';
+    div.style.alignItems = 'center';
+    
+    div.innerHTML = `
+        <input type="text" name="choices[]" placeholder="ตัวเลือกที่ ${childCount + 1}..." required style="flex:1;">
+        <button type="button" onclick="this.parentElement.remove()" style="background:#ef4444; color:#fff; border:none; padding:8px 12px; border-radius:8px; font-weight:bold; cursor:pointer;">X</button>
+    `;
+    container.appendChild(div);
+}
+</script>
 
 </body>
 </html>

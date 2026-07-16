@@ -21,11 +21,11 @@ if (file_exists($jsonPath)) {
         
         // Define the 5 decoy items
         $decoys = [
-            ["id" => 25, "name" => "เครื่องปริ้นเตอร์ 3 มิติ", "image" => "https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&w=300&q=80", "decoy" => true],
-            ["id" => 26, "name" => "แว่น VR", "image" => "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=300&q=80", "decoy" => true],
-            ["id" => 27, "name" => "พล็อตเตอร์", "image" => "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=300&q=80", "decoy" => true],
-            ["id" => 28, "name" => "การ์ดเสียง", "image" => "https://images.unsplash.com/photo-1580584126903-c17d41830450?auto=format&fit=crop&w=300&q=80", "decoy" => true],
-            ["id" => 29, "name" => "เครื่องสำรองไฟ (UPS)", "image" => "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=300&q=80", "decoy" => true]
+            ["id" => 25, "name" => "เครื่องปริ้นเตอร์ 3 มิติ", "image" => "https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&w=300&q=80", "decoy" => true, "clue" => "อุปกรณ์พิมพ์วัตถุขึ้นมาเป็นรูปทรงสามมิติที่จับต้องได้จากการฉีดเส้นพลาสติก"],
+            ["id" => 26, "name" => "แว่น VR", "image" => "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=300&q=80", "decoy" => true, "clue" => "อุปกรณ์สวมศีรษะจำลองภาพแวดล้อมเสมือนจริง 3 มิติ แบบ 360 องศา"],
+            ["id" => 27, "name" => "พล็อตเตอร์", "image" => "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=300&q=80", "decoy" => true, "clue" => "เครื่องพิมพ์ขนาดใหญ่พิเศษใช้ปากกาขีดเขียนเส้นวาดแบบแปลนสถาปัตยกรรม"],
+            ["id" => 28, "name" => "การ์ดเสียง", "image" => "https://images.unsplash.com/photo-1580584126903-c17d41830450?auto=format&fit=crop&w=300&q=80", "decoy" => true, "clue" => "บอร์ดวงจรขยายประมวลผลสัญญาณเสียงเพื่อต่อลำโพงและเครื่องดนตรีระดับมืออาชีพ"],
+            ["id" => 29, "name" => "เครื่องสำรองไฟ (UPS)", "image" => "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=300&q=80", "decoy" => true, "clue" => "เครื่องมีแบตเตอรี่ภายในจ่ายไฟฉุกเฉินเพื่อให้คอมไม่ดับและปิดเครื่องได้ทันเมื่อไฟดับ"]
         ];
         $existingIds = array_column($itemsData['items'], 'id');
         foreach ($decoys as $decoy) {
@@ -108,6 +108,23 @@ if (file_exists($jsonPath)) {
     <main class="main-card" style="padding: 20px 16px;">
         
         <span class="status-pill" id="bingo-status">จิ้มช่องรูปภาพเพื่อกากบาท (ติ๊ก)</span>
+
+        <div style="display: flex; gap: 8px; width: 100%; margin-bottom: 12px; justify-content: center;">
+            <button id="btn-shuffle-board" onclick="shufflePlayerBoard()" class="btn-secondary" style="padding: 6px 14px; font-size: 0.75rem; display: flex; align-items: center; gap: 4px; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.03); color: var(--text-muted); cursor: pointer;" title="สลับตำแหน่งอุปกรณ์บนกระดาน">
+                <ion-icon name="shuffle-outline" style="font-size: 0.95rem; color: var(--accent-cyan);"></ion-icon>
+                สลับตำแหน่งกระดาน
+            </button>
+        </div>
+
+        <!-- QUIZ CLUE BANNER -->
+        <div id="quiz-clue-banner" style="display: none; width: 100%; flex-direction: column; align-items: center; justify-content: center; background: rgba(251,191,36,0.06); border: 2px dashed rgba(251,191,36,0.25); border-radius: 16px; padding: 18px; margin-bottom: 16px; box-sizing: border-box; text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,0.15);">
+            <div style="font-size: 0.72rem; font-weight: 800; color: #fbbf24; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 1px;">🎯 คำถามใบ้คอมพิวเตอร์:</div>
+            <div id="quiz-clue-text" style="font-size: 1rem; color: var(--text-main); font-weight: 700; line-height: 1.45; margin-bottom: 10px; max-width: 320px;">กำลังวิเคราะห์คำถาม...</div>
+            <div id="quiz-clue-status" style="font-size: 0.78rem; font-weight: bold; background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid var(--card-border); padding: 4px 10px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px;">
+                <ion-icon name="help-circle-outline" style="color:#fbbf24;"></ion-icon>
+                <span>จิ้มอุปกรณ์บนกระดานเพื่อส่งคำตอบ!</span>
+            </div>
+        </div>
 
         <!-- 5x5 PLAY BOARD -->
         <div class="board-grid" id="player-grid-container" style="gap: 4px;"></div>
@@ -355,6 +372,7 @@ function generateNewCardForRound() {
                 id: item.id,
                 name: item.name,
                 image: item.image,
+                clue: item.clue || '',
                 ticked: false
             });
         }
@@ -375,34 +393,64 @@ function saveCardState() {
 }
 
 let serverDrawnIds = [];
+let lastDrawnIdsCount = 0;
+let lastIsRevealed = true;
 
 // Toggle cell ticked status
+let questionMode = false;
+let isRevealed = true;
+
 function toggleCell(cellIdx) {
     initAudio();
     const cell = playerCard[cellIdx];
     if (cell.isFree) return; // FREE cell always ticked
     
-    // Anti-cheat check: only allow ticking if the item ID has been drawn on the server!
-    if (!cell.ticked && !serverDrawnIds.includes(cell.id)) {
-        // Play error buzzer sound
-        playTone(180, 'sawtooth', 0.2, 0.08);
-        document.getElementById('bingo-status').textContent = `❌ อุปกรณ์ '${cell.name}' ยังไม่ถูกสุ่มออกรางวัล!`;
-        return;
-    }
-    
-    cell.ticked = !cell.ticked;
-    
-    if (cell.ticked) {
-        sndTickUp();
+    // If Quiz Mode is active and the latest item is NOT revealed yet
+    if (questionMode && !isRevealed && !cell.ticked) {
+        const latestDrawnId = serverDrawnIds[serverDrawnIds.length - 1];
+        if (latestDrawnId && cell.id === latestDrawnId) {
+            cell.ticked = true;
+            sndTickUp();
+            document.getElementById('bingo-status').innerHTML = `🟢 ถูกต้อง! คำตอบคือ <b>'${cell.name}'</b> 🎉`;
+            
+            // Green container glow
+            const mainEl = document.querySelector('.minimal-app');
+            mainEl.style.transition = 'box-shadow 0.3s ease';
+            mainEl.style.boxShadow = '0 0 40px rgba(48, 209, 88, 0.45)';
+            setTimeout(() => mainEl.style.boxShadow = 'var(--container-shadow)', 500);
+        } else {
+            playTone(180, 'sawtooth', 0.2, 0.08);
+            document.getElementById('bingo-status').textContent = `❌ ยังไม่ใช่ '${cell.name}' ลองอ่านคำใบ้แล้วเดาใหม่!`;
+            return;
+        }
     } else {
-        sndTickDown();
+        // Classic mode or cell is already ticked / revealed
+        if (!cell.ticked && !serverDrawnIds.includes(cell.id)) {
+            playTone(180, 'sawtooth', 0.2, 0.08);
+            document.getElementById('bingo-status').textContent = `❌ อุปกรณ์ '${cell.name}' ยังไม่ถูกสุ่มออกรางวัล!`;
+            return;
+        }
+        
+        cell.ticked = !cell.ticked;
+        if (cell.ticked) {
+            sndTickUp();
+        } else {
+            sndTickDown();
+        }
     }
     
     saveCardState();
     renderPlayerBoard();
-    
-    // Check if player won Bingo
     checkBingoWin();
+}
+
+function isItemRevealed(id) {
+    if (!serverDrawnIds.includes(id)) return false;
+    const lastId = serverDrawnIds[serverDrawnIds.length - 1];
+    if (id === lastId) {
+        return isRevealed;
+    }
+    return true;
 }
 
 // Render Board grid html
@@ -422,6 +470,16 @@ function renderPlayerBoard() {
         } else {
             div.className = 'board-cell player-cell';
             if (cell.ticked) div.classList.add('cell-ticked');
+            
+            // Highlight drawn and revealed items
+            const isDrawnAndRevealed = isItemRevealed(cell.id);
+            if (isDrawnAndRevealed && !cell.ticked) {
+                div.style.borderColor = 'rgba(251, 191, 36, 0.6)';
+                div.style.boxShadow = '0 0 12px rgba(251, 191, 36, 0.25)';
+            } else {
+                div.style.borderColor = '';
+                div.style.boxShadow = '';
+            }
             
             div.setAttribute('onclick', `toggleCell(${idx})`);
             div.innerHTML = `
@@ -729,6 +787,33 @@ async function syncDrawnItems() {
         }
         
         serverDrawnIds = data.drawn_ids || [];
+        questionMode = data.question_mode === true;
+        isRevealed = data.is_revealed !== false;
+        
+        // Render Quiz Clue Banner if active
+        const banner = document.getElementById('quiz-clue-banner');
+        if (banner) {
+            if (questionMode && serverDrawnIds.length > 0) {
+                banner.style.display = 'flex';
+                const latestId = serverDrawnIds[serverDrawnIds.length - 1];
+                const latestItem = allItems.find(x => x.id === latestId);
+                
+                if (latestItem) {
+                    const clueText = document.getElementById('quiz-clue-text');
+                    const clueStatus = document.getElementById('quiz-clue-status');
+                    
+                    if (isRevealed) {
+                        clueText.innerHTML = `เฉลยแล้ว: <b style="color:#fbbf24; font-size:1.15rem;">${latestItem.name}</b>`;
+                        clueStatus.innerHTML = `<ion-icon name="checkmark-circle-outline" style="color:#30d158;"></ion-icon> <span>เฉลยคำตอบเรียบร้อย!</span>`;
+                    } else {
+                        clueText.textContent = latestItem.clue || 'ไม่มีคำใบ้';
+                        clueStatus.innerHTML = `<ion-icon name="help-circle-outline" style="color:#fbbf24;"></ion-icon> <span>อ่านคำใบ้ด้านบนแล้วเลือกคำตอบ!</span>`;
+                    }
+                }
+            } else {
+                banner.style.display = 'none';
+            }
+        }
         
         // Anti-cheat validation: untick any cell that is NOT drawn on the server (except FREE cell)
         let stateChanged = false;
@@ -739,16 +824,95 @@ async function syncDrawnItems() {
             }
         });
         
-        if (stateChanged) {
+        const countChanged = (serverDrawnIds.length !== lastDrawnIdsCount);
+        const revealChanged = (isRevealed !== lastIsRevealed);
+        
+        if (stateChanged || countChanged || revealChanged) {
+            lastDrawnIdsCount = serverDrawnIds.length;
+            lastIsRevealed = isRevealed;
             saveCardState();
             renderPlayerBoard();
         }
     } catch(e) {}
 }
 
+function updateShuffleButtonState() {
+    const btn = document.getElementById('btn-shuffle-board');
+    if (!btn) return;
+    
+    const shuffledRound = localStorage.getItem('bingo_shuffled_round_id');
+    if (shuffledRound === serverRoundId) {
+        btn.disabled = true;
+        btn.style.opacity = '0.4';
+        btn.style.cursor = 'not-allowed';
+        btn.title = "สลับตำแหน่งได้เพียง 1 ครั้งต่อรอบ (คุณสลับตำแหน่งในรอบนี้ไปแล้ว)";
+    } else {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.style.cursor = 'pointer';
+        btn.title = "สลับตำแหน่งอุปกรณ์บนกระดาน";
+    }
+}
+
+function shufflePlayerBoard() {
+    const shuffledRound = localStorage.getItem('bingo_shuffled_round_id');
+    if (shuffledRound === serverRoundId) {
+        document.getElementById('bingo-status').innerHTML = "❌ คุณสามารถสลับตำแหน่งกระดานได้เพียง 1 ครั้งต่อรอบเท่านั้น!";
+        playTone(180, 'sawtooth', 0.2, 0.08);
+        return;
+    }
+
+    initAudio();
+    playTone(300, 'sine', 0.1, 0.05);
+    
+    // Separate the free cell from non-free cells
+    const freeCell = playerCard[12];
+    const nonFreeCells = playerCard.filter((c, idx) => idx !== 12);
+    
+    // Shuffle the non-free cells
+    for (let i = nonFreeCells.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [nonFreeCells[i], nonFreeCells[j]] = [nonFreeCells[j], nonFreeCells[i]];
+    }
+    
+    // Reconstruct the playerCard
+    let nonFreeIdx = 0;
+    const newCard = [];
+    for (let i = 0; i < 25; i++) {
+        if (i === 12) {
+            newCard.push(freeCell);
+        } else {
+            newCard.push(nonFreeCells[nonFreeIdx++]);
+        }
+    }
+    playerCard = newCard;
+    
+    // Save shuffle round flag to limit to once
+    localStorage.setItem('bingo_shuffled_round_id', serverRoundId);
+    saveCardState();
+    updateShuffleButtonState();
+    
+    // 3D Flip Animation on the cells
+    const cells = document.querySelectorAll('.player-cell');
+    cells.forEach((cell) => {
+        cell.style.transform = 'rotateY(180deg)';
+        cell.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        setTimeout(() => {
+            cell.style.transform = '';
+        }, 400);
+    });
+    
+    // Re-render after animation flip
+    setTimeout(() => {
+        renderPlayerBoard();
+        document.getElementById('bingo-status').textContent = "🔄 สลับสับเปลี่ยนตำแหน่งบนกระดานเรียบร้อยแล้ว!";
+    }, 200);
+}
+
 // Start Setup
 updateThemeIcon();
 loadOrCreatePlayerCard();
+updateShuffleButtonState();
 renderPlayerBoard();
 
 // Poll every 2 seconds

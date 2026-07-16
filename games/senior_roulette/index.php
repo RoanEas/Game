@@ -65,13 +65,13 @@ $isAdmin = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin');
             z-index: 100;
             box-shadow: 0 20px 40px rgba(0,0,0,0.8);
         }
-        @keyframes shuffleSpin {
-            0% { transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.8); }
-            50% { transform: translate(calc(var(--tx) + 15px), calc(var(--ty) - 10px)) rotate(calc(var(--rot) + 10deg)) scale(0.82); }
-            100% { transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.8); }
+        @keyframes boardSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            100% { transform: rotate(720deg) scale(0.92); }
         }
-        .card-board.is-shuffling .card-container.gather {
-            animation: shuffleSpin 0.15s infinite;
+        .card-board.is-shuffling {
+            animation: boardSpin 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            transform-origin: center center;
         }
         
         /* ADMIN WYSIWYG STYLES */
@@ -165,8 +165,9 @@ $isAdmin = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin');
 
     <!-- Action buttons -->
     <div class="action-bar">
-        <div class="btn-row">
+        <div class="btn-row" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; width: 100%;">
             <button class="btn-main" id="btn-start" onclick="beginShuffle()">🎰 สับและแจกไพ่</button>
+            <button class="btn-outline" id="btn-auto-pick" onclick="startAutoPick()" style="display: none; border-color: #fbbf24; color: #fbbf24; cursor: pointer;">🔮 สุ่มเลือกเป้าหมาย</button>
             <button class="btn-outline" id="btn-reset" onclick="resetBoard()" disabled>↺ รีเซ็ตใหม่</button>
         </div>
         <div style="display:flex; justify-content:center; align-items:center; margin-top:10px;">
@@ -413,6 +414,12 @@ function resetBoard() {
     btnStart.disabled = false;
     btnReset.disabled = true;
     
+    const autoBtn = document.getElementById('btn-auto-pick');
+    if (autoBtn) {
+        autoBtn.style.display = 'none';
+        autoBtn.disabled = true;
+    }
+    
     statusEl.style.cssText = '';
     statusEl.textContent = 'กด "🎰 สับและแจกไพ่" เพื่อเริ่มเกม';
     
@@ -425,6 +432,11 @@ function beginShuffle() {
     if (gameReady) return;
     btnStart.disabled = true;
     btnReset.disabled = true;
+    
+    const autoBtn = document.getElementById('btn-auto-pick');
+    if (autoBtn) {
+        autoBtn.style.display = 'none';
+    }
     
     const cards = document.querySelectorAll('.card-container');
     cards.forEach((c, i) => {
@@ -441,15 +453,17 @@ function beginShuffle() {
         const boardRect = board.getBoundingClientRect();
         const bx = boardRect.left + boardRect.width / 2;
         const by = boardRect.top + boardRect.height / 2;
+        const R = Math.min(boardRect.width, boardRect.height) * 0.35; // Responsive circle radius
 
         cards.forEach((c, i) => {
             const cardRect = c.getBoundingClientRect();
             const cx = cardRect.left + cardRect.width / 2;
             const cy = cardRect.top + cardRect.height / 2;
             
-            const tx = bx - cx;
-            const ty = by - cy;
-            const rot = (i - cards.length / 2) * 5; 
+            const theta = (i * 2 * Math.PI) / cards.length;
+            const tx = (bx + R * Math.cos(theta)) - cx;
+            const ty = (by + R * Math.sin(theta)) - cy;
+            const rot = (theta * 180 / Math.PI) + 90; // Align angle along circumference
 
             c.style.setProperty('--tx', `${tx}px`);
             c.style.setProperty('--ty', `${ty}px`);
@@ -494,13 +508,17 @@ function beginShuffle() {
             setTimeout(() => {
                 gameReady = true;
                 btnReset.disabled = false;
+                if (autoBtn) {
+                    autoBtn.style.display = 'inline-block';
+                    autoBtn.disabled = false;
+                }
                 statusEl.style.color = '#30d158';
                 statusEl.style.background = 'rgba(48,209,88,0.1)';
                 statusEl.style.borderColor = 'rgba(48,209,88,0.3)';
                 statusEl.textContent = '✅ แจกไพ่เสร็จแล้ว! คลิกเลือกไพ่ 2 ใบเพื่อกำหนดเป้าหมาย';
             }, cards.length * 40 + 200);
             
-        }, 1500);
+        }, 1800);
     }, 1200);
 }
 
@@ -554,6 +572,111 @@ function toggleReveal(slotNum) {
             wc.classList.remove('revealed');
         }
     }
+}
+
+let autoPicking = false;
+
+function startAutoPick() {
+    if (!gameReady || autoPicking || pickedCount >= 2) return;
+    autoPicking = true;
+    
+    const autoBtn = document.getElementById('btn-auto-pick');
+    if (autoBtn) autoBtn.disabled = true;
+    btnReset.disabled = true;
+    
+    // Determine which cards are available (not yet picked)
+    const availableIndices = [];
+    for (let i = 0; i < 14; i++) {
+        if (!pickedIndices.includes(i)) {
+            availableIndices.push(i);
+        }
+    }
+    
+    if (availableIndices.length < (2 - pickedCount)) {
+        autoPicking = false;
+        if (autoBtn) autoBtn.disabled = false;
+        btnReset.disabled = false;
+        return;
+    }
+    
+    function runSelectorCycle(callback) {
+        let speed = 45; // initial fast cycle speed
+        let elapsed = 0;
+        let activeIdx = 0;
+        const totalDuration = 1800; // 1.8 seconds cycle
+        
+        // Find all card elements on the board that are not already hidden or flipped face-up
+        const cards = Array.from(document.querySelectorAll('.card-container')).filter(c => {
+            const idx = parseInt(c.dataset.idx);
+            return !pickedIndices.includes(idx) && !c.classList.contains('hidden-card') && !c.classList.contains('flipped');
+        });
+        
+        if (cards.length === 0) {
+            callback(null);
+            return;
+        }
+        
+        function cycle() {
+            // Remove previous highlights from all cards
+            cards.forEach(c => {
+                c.style.boxShadow = '';
+                c.style.transform = '';
+            });
+            
+            // Highlight current
+            activeIdx = (activeIdx + 1) % cards.length;
+            const highlightedCard = cards[activeIdx];
+            highlightedCard.style.boxShadow = '0 0 25px var(--blue), inset 0 0 15px var(--blue)';
+            highlightedCard.style.transform = 'scale(1.08)';
+            
+            beep(600 + activeIdx*20, 'sine', 0.03, 0.08);
+            
+            elapsed += speed;
+            if (elapsed < totalDuration) {
+                // Decelerate cycle speed
+                speed = 45 + (elapsed / totalDuration) * 220;
+                setTimeout(cycle, speed);
+            } else {
+                // Clear highlight and transform
+                highlightedCard.style.boxShadow = '';
+                highlightedCard.style.transform = '';
+                
+                // Select a random final card from the remaining pool
+                const finalIdx = Math.floor(Math.random() * cards.length);
+                const finalCard = cards[finalIdx];
+                const finalIndex = parseInt(finalCard.dataset.idx);
+                callback(finalIndex);
+            }
+        }
+        
+        cycle();
+    }
+    
+    function pickNext() {
+        if (pickedCount >= 2) {
+            autoPicking = false;
+            if (autoBtn) {
+                autoBtn.style.display = 'none';
+                autoBtn.disabled = false;
+            }
+            btnReset.disabled = false;
+            return;
+        }
+        
+        statusEl.textContent = `🔮 ระบบกำลังสุ่มเลือกเป้าหมายที่ ${pickedCount + 1}...`;
+        runSelectorCycle((selectedIndex) => {
+            if (selectedIndex !== null) {
+                handleCardClick(selectedIndex);
+                setTimeout(pickNext, 700); // Wait briefly before picking the next target
+            } else {
+                autoPicking = false;
+                if (autoBtn) autoBtn.disabled = false;
+                btnReset.disabled = false;
+            }
+        });
+    }
+    
+    pickNext();
 }
 
 buildBoard(true); 

@@ -4,9 +4,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --bg: #0b0b0d;
-    --card-bg: #131316;
-    --border: #222226;
+    --bg: #040108;
+    --card-bg: rgba(255, 255, 255, 0.035);
+    --border: rgba(255, 255, 255, 0.08);
     --accent: #a78bfa; /* Soft Violet */
     --accent-light: rgba(167, 139, 250, 0.1);
     --text: #f3f4f6;
@@ -14,14 +14,14 @@
     --success: #34d399;
 
     /* Dynamic Theme Variables (Dark Mode Defaults) */
-    --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-    --btn-draw-hover-bg: #ffffff;
-    --btn-draw-hover-color: #0b0b0d;
-    --btn-draw-hover-shadow: rgba(255, 255, 255, 0.2);
-    --tabbar-bg: rgba(19, 19, 22, 0.9);
-    --row-bg: rgba(255, 255, 255, 0.03);
-    --row-hover-bg: rgba(255, 255, 255, 0.06);
-    --row-hover-border: rgba(255, 255, 255, 0.1);
+    --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    --btn-draw-hover-bg: rgba(255, 255, 255, 0.1);
+    --btn-draw-hover-color: #ffffff;
+    --btn-draw-hover-shadow: rgba(255, 255, 255, 0.1);
+    --tabbar-bg: rgba(15, 15, 20, 0.4);
+    --row-bg: rgba(255, 255, 255, 0.02);
+    --row-hover-bg: rgba(255, 255, 255, 0.05);
+    --row-hover-border: rgba(255, 255, 255, 0.12);
 }
 
 body.light-mode {
@@ -62,6 +62,11 @@ body, .main-card, .circle-btn, .board-cell, .floating-tabbar, .tab-item, .item-d
 
 body {
     background-color: var(--bg);
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(167, 139, 250, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(52, 211, 153, 0.10) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 45%);
+    background-attachment: fixed;
     color: var(--text);
     min-height: 100vh;
     display: flex;
@@ -103,7 +108,7 @@ body {
 
 .circle-btn {
     background: var(--card-bg);
-    border: 1px solid var(--border);
+    border: none;
     color: var(--text-muted);
     width: 38px;
     height: 38px;
@@ -113,25 +118,37 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 1.1rem;
+    box-shadow: 
+        3px 3px 6px rgba(0, 0, 0, 0.2), 
+        inset 1.5px 1.5px 3px rgba(255, 255, 255, 0.2), 
+        inset -1.5px -1.5px 3px rgba(0, 0, 0, 0.4);
     transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .circle-btn:hover {
-    border-color: var(--accent);
     color: var(--accent);
     transform: scale(1.05);
+    box-shadow: 
+        3px 3px 8px rgba(0, 0, 0, 0.25), 
+        inset 1.5px 1.5px 3px rgba(255, 255, 255, 0.3), 
+        inset -1.5px -1.5px 3px rgba(0, 0, 0, 0.3);
 }
 
 .circle-btn.active {
-    background: var(--accent-light);
-    color: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent);
+    color: #ffffff;
+    box-shadow: 
+        3px 3px 8px rgba(167, 139, 250, 0.3), 
+        inset 1.5px 1.5px 3px rgba(255, 255, 255, 0.4), 
+        inset -1.5px -1.5px 3px rgba(0, 0, 0, 0.4);
 }
 
 /* Main Minimal Card */
 .main-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 28px;
     padding: 30px 24px;
     box-shadow: var(--card-shadow);
@@ -141,6 +158,14 @@ body {
     gap: 20px;
     text-align: center;
     position: relative;
+}
+
+body.light-mode .main-card {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
 /* Drawer pod for selected item */
@@ -224,14 +249,34 @@ body {
     justify-content: center;
     align-items: center;
     gap: 8px;
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        6px 6px 12px rgba(0, 0, 0, 0.35), 
+        inset 3px 3px 6px rgba(255, 255, 255, 0.4), 
+        inset -3px -3px 6px rgba(0, 0, 0, 0.2);
 }
 
 .btn-draw:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px var(--btn-draw-hover-shadow);
     background: var(--btn-draw-hover-bg);
     color: var(--btn-draw-hover-color);
+    box-shadow: 
+        8px 8px 16px rgba(0, 0, 0, 0.4), 
+        inset 3px 3px 6px rgba(255, 255, 255, 0.3), 
+        inset -3px -3px 6px rgba(0, 0, 0, 0.3);
+}
+
+body.light-mode .btn-draw {
+    box-shadow: 
+        6px 6px 12px rgba(0, 0, 0, 0.1), 
+        inset 3px 3px 6px rgba(255, 255, 255, 0.7), 
+        inset -3px -3px 6px rgba(0, 0, 0, 0.15);
+}
+
+body.light-mode .btn-draw:hover:not(:disabled) {
+    box-shadow: 
+        8px 8px 16px rgba(0, 0, 0, 0.12), 
+        inset 3px 3px 6px rgba(255, 255, 255, 0.8), 
+        inset -3px -3px 6px rgba(0, 0, 0, 0.1);
 }
 
 .btn-draw:active:not(:disabled) {
@@ -281,14 +326,23 @@ body {
     transform: translate(-50%, 100%);
     width: 100%;
     max-width: 440px;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
+    background: rgba(15, 15, 20, 0.45);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-bottom: none;
     border-radius: 24px 24px 0 0;
     padding: 24px;
     z-index: 1000;
     box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
     transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body.light-mode .bottom-sheet {
+    background: rgba(255, 255, 255, 0.70);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border-color: rgba(0, 0, 0, 0.05);
 }
 
 .bottom-sheet.active {
@@ -547,16 +601,22 @@ body {
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--tabbar-bg);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border);
+    background: rgba(15, 15, 20, 0.4);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     padding: 6px;
     border-radius: 100px;
     display: flex;
     gap: 4px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     z-index: 999;
     width: max-content;
+}
+
+body.light-mode .floating-tabbar {
+    background: rgba(255, 255, 255, 0.70);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .tab-item {
@@ -571,9 +631,19 @@ body {
 }
 
 .tab-item.active {
-    background: var(--text);
-    color: var(--bg);
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
     font-weight: 600;
+    box-shadow: 
+        3px 3px 6px rgba(0, 0, 0, 0.2), 
+        inset 2px 2px 4px rgba(255, 255, 255, 0.2), 
+        inset -2px -2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.light-mode .tab-item.active {
+    background: rgba(0, 0, 0, 0.08);
+    color: #000000;
+    border-color: transparent;
 }
 
 .tab-item:hover:not(.active) {
@@ -946,5 +1016,29 @@ body:has(.admin-app) {
     }
     .floating-tabbar {
         display: none;
+    }
+    
+    /* PC Player Screen Overrides */
+    .minimal-app:not(.admin-app) {
+        max-width: 840px; /* Expand player card on PC! */
+    }
+    .minimal-app:not(.admin-app) .board-grid {
+        gap: 10px;
+    }
+    .minimal-app:not(.admin-app) .board-cell {
+        border-radius: 18px;
+        padding: 10px;
+    }
+    .minimal-app:not(.admin-app) .cell-name-label {
+        font-size: 0.82rem;
+        font-weight: 700;
+        padding: 4px 6px;
+        border-radius: 6px;
+    }
+    .minimal-app:not(.admin-app) .cell-free-text {
+        font-size: 0.85rem;
+    }
+    .minimal-app:not(.admin-app) .cell-free ion-icon {
+        font-size: 2rem;
     }
 }

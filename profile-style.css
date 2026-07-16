@@ -1,0 +1,569 @@
+/* ==========================================================================
+   ✨ PREMIUM CYBERPUNK GLASS-GLOW PROFILE CARD DESIGN (profile-style.css)
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Orbitron:wght@800;900&family=Prompt:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-obsidian: #080c16;
+    --card-glass: rgba(15, 22, 42, 0.45);
+    --border-neon-sub: rgba(255, 255, 255, 0.07);
+    
+    /* Neon Spectrum */
+    --neon-pink: #ff007f;
+    --neon-violet: #8b5cf6;
+    --neon-cyan: #00ffd8;
+    --neon-blue: #0088ff;
+    --neon-green: #10b981;
+    
+    /* Fonts */
+    --font-th: 'Prompt', sans-serif;
+    --font-heading: 'Chakra Petch', sans-serif;
+    --font-gaming: 'Orbitron', sans-serif;
+    
+    /* Radius */
+    --radius-lg: 24px;
+    --radius-md: 18px;
+    --radius-sm: 12px;
+    --radius-pill: 50px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-th);
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-obsidian);
+    color: #f1f5f9;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px 18px 150px 18px;
+    overflow-x: hidden;
+    position: relative;
+    /* Ambient neon dust glows */
+    background-image: 
+        radial-gradient(circle at 10% 15%, rgba(139, 92, 246, 0.15) 0%, transparent 45%),
+        radial-gradient(circle at 90% 85%, rgba(255, 0, 127, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(0, 255, 216, 0.08) 0%, transparent 50%);
+    background-attachment: fixed;
+}
+
+.profile-container {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    padding-bottom: 100px; /* Reserves blank space at bottom to prevent tabbar overlaps */
+    animation: profileEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes profileEntrance {
+    from { opacity: 0; transform: scale(0.96) translateY(15px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ==========================================================================
+   🛸 CYBER HEADER
+   ========================================================================== */
+.profile-header {
+    margin-bottom: 24px;
+    text-align: left;
+    padding: 0 8px;
+}
+
+.header-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--neon-cyan);
+    background: rgba(0, 255, 216, 0.08);
+    border: 1px solid rgba(0, 255, 216, 0.15);
+    padding: 5px 14px;
+    border-radius: var(--radius-pill);
+    display: inline-block;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    box-shadow: 0 0 15px rgba(0, 255, 216, 0.1);
+}
+
+.profile-header h1 {
+    font-family: var(--font-heading);
+    font-size: 2.1rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #ffffff 40%, var(--neon-violet));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.profile-header p {
+    font-size: 0.88rem;
+    color: #94a3b8;
+    margin-top: 6px;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+/* ==========================================================================
+    Bento-style Cards
+   ========================================================================== */
+.profile-card {
+    background: var(--card-glass);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--border-neon-sub);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+.profile-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 12px 45px rgba(139, 92, 246, 0.15);
+}
+
+.card-title {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+}
+
+.card-title ion-icon {
+    font-size: 1.2rem;
+}
+
+/* ==========================================================================
+   👤 AVATAR SELECTION
+   ========================================================================== */
+.avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.avatar-preview-box {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    padding: 3px;
+    border: 2px solid var(--neon-violet);
+    background: rgba(8, 12, 22, 0.8);
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.avatar-preview-box img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.avatar-info-text {
+    font-size: 0.72rem;
+    color: #64748b;
+    text-align: center;
+    margin-top: -4px;
+}
+
+.avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    width: 100%;
+}
+
+.avatar-item {
+    background: rgba(8, 12, 22, 0.4);
+    border: 1px solid var(--border-neon-sub);
+    border-radius: var(--radius-md);
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 6px;
+}
+
+.avatar-item img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.avatar-item:hover {
+    transform: scale(1.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.avatar-item.selected {
+    border-color: var(--neon-cyan);
+    background: rgba(0, 255, 216, 0.08);
+    box-shadow: 0 0 15px rgba(0, 255, 216, 0.25);
+    transform: scale(1.04);
+}
+
+/* ==========================================================================
+   📝 SLEEK INPUT FIELDS
+   ========================================================================== */
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.form-field label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--neon-cyan);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.form-input {
+    background: rgba(8, 12, 22, 0.5);
+    border: 1px solid var(--border-neon-sub);
+    color: #f1f5f9;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    outline: none;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.form-input:focus {
+    border-color: var(--neon-cyan);
+    box-shadow: 
+        0 0 10px rgba(0, 255, 216, 0.2),
+        inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.form-input[readonly] {
+    color: #64748b;
+    background: rgba(255, 255, 255, 0.01);
+    border-color: rgba(255, 255, 255, 0.02);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* ==========================================================================
+   🏆 STATS ZONE
+   ========================================================================== */
+.stats-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.stat-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-family: var(--font-gaming);
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--neon-cyan);
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(0, 255, 216, 0.35);
+}
+
+.role-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: var(--radius-pill);
+    display: inline-block;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+    text-transform: uppercase;
+}
+
+.role-admin {
+    color: #facc15;
+    background: rgba(250, 204, 21, 0.1);
+    border: 1px solid rgba(250, 204, 21, 0.15);
+    box-shadow: 0 0 12px rgba(250, 204, 21, 0.1);
+}
+
+.role-member {
+    color: var(--neon-violet);
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.15);
+}
+
+/* ==========================================================================
+   💾 ACTION BUTTON
+   ========================================================================== */
+.btn-save {
+    width: 100%;
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-violet));
+    color: #ffffff;
+    padding: 15px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    border: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(255, 0, 127, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-save:hover {
+    box-shadow: 0 0 25px rgba(255, 0, 127, 0.55);
+    transform: translateY(-1.5px);
+}
+
+.btn-save:active {
+    transform: scale(0.97);
+}
+
+/* ==========================================================================
+   🔔 MESSAGE BANNER
+   ========================================================================== */
+.message-banner {
+    padding: 16px;
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+    text-align: center;
+    animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.msg-success {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    color: var(--neon-green);
+    font-weight: 600;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.05);
+}
+
+.msg-error {
+    background: rgba(255, 0, 127, 0.08);
+    border: 1px solid rgba(255, 0, 127, 0.2);
+    color: var(--neon-pink);
+    font-weight: 600;
+    box-shadow: 0 0 20px rgba(255, 0, 127, 0.05);
+}
+
+/* ==========================================================================
+   📱 FLOATING CAPSULE DOCK TABBAR (Dynamic PC/Mobile Adaptive Dock)
+   ========================================================================== */
+.floating-tabbar {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    padding: 8px 14px;
+    background: rgba(8, 12, 22, 0.45);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid var(--border-neon-sub);
+    border-radius: var(--radius-pill);
+    z-index: 9999;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tab-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    color: #64748b;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0 12px;
+}
+
+.tab-item ion-icon {
+    font-size: 1.3rem;
+    min-width: 24px;
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.tab-text {
+    font-size: 0.82rem;
+    font-weight: 700;
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    transition: opacity 0.22s ease, max-width 0.22s cubic-bezier(0.16, 1, 0.3, 1), margin-left 0.22s;
+    margin-left: 0;
+}
+
+.tab-item.active {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.12);
+}
+
+/* 💻 PC / DESKTOP SPECIFIC HOVER DOCK (macOS Dock Style) */
+@media (min-width: 769px) {
+    .tab-item:hover {
+        width: 120px;
+        border-radius: 24px;
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.15);
+        border-color: var(--neon-cyan);
+        box-shadow: 0 0 20px rgba(0, 255, 216, 0.25);
+    }
+    .tab-item:hover ion-icon {
+        transform: scale(1.1);
+    }
+    .tab-item:hover .tab-text {
+        opacity: 1;
+        max-width: 80px;
+        margin-left: 6px;
+    }
+}
+
+/* 📱 MOBILE SPECIFIC ACTIVE DOCK (Auto-expand Active tab, Others Compact) */
+@media (max-width: 768px) {
+    .floating-tabbar {
+        bottom: 18px;
+        gap: 10px;
+        padding: 6px 12px;
+    }
+    
+    .tab-item.active {
+        width: 110px;
+        border-radius: 24px;
+        padding: 0 14px;
+    }
+    
+    .tab-item.active .tab-text {
+        opacity: 1;
+        max-width: 70px;
+        margin-left: 5px;
+    }
+}
+
+/* ==========================================================================
+   🖥️ RESPONSIVE TWO-COLUMN GRID FOR PC & TABLETS
+   ========================================================================== */
+@media (min-width: 769px) {
+    .profile-container {
+        max-width: 920px; /* Expands to a beautiful wide layout on PC! */
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+    
+    .profile-header h1 {
+        font-size: 2.6rem;
+    }
+
+    .profile-form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.25fr; /* Left: Avatar selector, Right: Forms/Stats/Save */
+        gap: 24px;
+        align-items: start;
+        width: 100%;
+    }
+
+    .profile-col-left {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .profile-col-right {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .profile-card {
+        padding: 30px; /* More breathing room on PC! */
+    }
+    
+    .avatar-preview-box {
+        width: 120px; /* Slightly larger preview on PC */
+        height: 120px;
+    }
+    
+    .avatar-grid {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-form-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+    }
+}

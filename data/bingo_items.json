@@ -3,187 +3,218 @@
         {
             "id": 1,
             "name": "หน่วยความจำ",
-            "image": "https:\/\/images.unsplash.com\/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=300&q=80",
+            "clue": "ชิปอิเล็กทรอนิกส์ใช้เก็บคำสั่งหรือข้อมูลชั่วคราวระหว่างคอมทำงาน"
         },
         {
             "id": 2,
             "name": "อีดิท",
-            "image": "https:\/\/images.unsplash.com\/photo-1516259762381-22954d7d3ad2?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1516259762381-22954d7d3ad2?auto=format&fit=crop&w=300&q=80",
+            "clue": "กระบวนการปรับแต่ง แก้ไข คัดเขียนสิ่งเดิมให้ดีขึ้นหรือเหมาะสมขึ้น"
         },
         {
             "id": 3,
             "name": "ข้อมูล",
-            "image": "https:\/\/images.unsplash.com\/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=300&q=80",
+            "clue": "ข้อเท็จจริง ตัวเลข หรือภาพดิบๆ ที่ยังไม่ได้ผ่านการประมวลผล"
         },
         {
             "id": 4,
             "name": "เครื่องอ่านบาร์โค้ด",
-            "image": "https:\/\/images.unsplash.com\/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=300&q=80",
+            "clue": "อุปกรณ์รับข้อมูลประเภทแสง ใช้ยิงกวาดอ่านเส้นรหัสแท่งสีดำบนหีบห่อสินค้า"
         },
         {
             "id": 5,
             "name": "อินเทอร์เน็ต",
-            "image": "https:\/\/images.unsplash.com\/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=300&q=80",
+            "clue": "เครือข่ายคอมพิวเตอร์ขนาดใหญ่ที่เชื่อมต่อคอมพิวเตอร์และเซิร์ฟเวอร์ทั่วโลก"
         },
         {
             "id": 6,
             "name": "แรม",
-            "image": "https:\/\/images.unsplash.com\/photo-1562976540-1502c2145186?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1562976540-1502c2145186?auto=format&fit=crop&w=300&q=80",
+            "clue": "หน่วยความจำชั่วคราวความเร็วสูง ที่ข้อมูลจะลบหายไปทันทีที่ไฟฟ้าดับหรือปิดเครื่อง"
         },
         {
             "id": 7,
             "name": "คีย์บอร์ด",
-            "image": "https:\/\/images.unsplash.com\/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=300&q=80",
+            "clue": "อุปกรณ์นำเข้าหลักรูปแบบปุ่มกดตัวอักษร ตัวเลข และเครื่องหมายต่าง ๆ"
         },
         {
             "id": 8,
             "name": "หูฟัง",
-            "image": "https:\/\/images.unsplash.com\/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=300&q=80",
+            "clue": "อุปกรณ์แสดงผลเสียงขนาดเล็กใช้สวมครอบหัวหรือสวมในหูเพื่อฟังส่วนตัว"
         },
         {
             "id": 9,
             "name": "แผ่นเสียง",
-            "image": "https:\/\/images.unsplash.com\/photo-1539625319135-8d6b9e86fcf7?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1539625319135-8d6b9e86fcf7?auto=format&fit=crop&w=300&q=80",
+            "clue": "แผ่นอนาล็อกกลมแบนมีร่องวงกลมสำหรับบันทึกเสียงโบราณ ใช้กับเครื่องเล่นจานหมุน"
         },
         {
             "id": 10,
             "name": "สื่อจัดเก็บข้อมูล",
-            "image": "https:\/\/images.unsplash.com\/photo-1597852074816-d933c4d2b988?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1597852074816-d933c4d2b988?auto=format&fit=crop&w=300&q=80",
+            "clue": "คำเรียกกลุ่มอุปกรณ์ทั้งหมดที่ใช้เก็บันทึกข้อมูลดิจิทัลถาวร"
         },
         {
             "id": 11,
             "name": "พาวเวอร์ซัพพลาย",
-            "image": "https:\/\/images.unsplash.com\/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=300&q=80",
+            "clue": "อุปกรณ์แปลงกระแสไฟฟ้าบ้านเป็นไฟฟ้ากระแสตรงเพื่อเลี้ยงอุปกรณ์คอมพิวเตอร์"
         },
         {
             "id": 12,
             "name": "พาสเวิร์ด",
-            "image": "https:\/\/images.unsplash.com\/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=300&q=80",
+            "clue": "รหัสลับส่วนตัวที่เป็นกุญแจหลักชั้นแรกสำหรับระบบความปลอดภัยในการเข้าระบบ"
         },
         {
             "id": 13,
             "name": "สแกนเนอร์",
-            "image": "https:\/\/images.unsplash.com\/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=300&q=80",
+            "clue": "อุปกรณ์ใช้แสงอ่านกวาดแปลงภาพวาดหรือเอกสารกระดาษเป็นไฟล์ดิจิทัล"
         },
         {
             "id": 14,
             "name": "เอเร่อ",
-            "image": "https:\/\/images.unsplash.com\/photo-1594322436404-5a0526db4d13?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1594322436404-5a0526db4d13?auto=format&fit=crop&w=300&q=80",
+            "clue": "หน้าต่างแจ้งเตือนข้อผิดพลาดขัดข้องของระบบปฏิบัติการหรือโปรแกรมคอมพิวเตอร์"
         },
         {
             "id": 15,
             "name": "ดาวน์โหลด",
-            "image": "https:\/\/images.unsplash.com\/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80",
+            "clue": "กระบวนการดึงหรือคัดลอกไฟล์ข้อมูลจากระบบอินเทอร์เน็ตเข้ามาเก็บในคอม"
         },
         {
             "id": 16,
             "name": "ซีพียู",
-            "image": "https:\/\/images.unsplash.com\/photo-1518770660439-4636190af475?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1518770660439-4636190af475?auto=format&fit=crop&w=300&q=80",
+            "clue": "ชิปหน่วยประมวลผลกลาง ทำหน้าที่คิดและคำนวณ เปรียบเหมือนสมองคอมพิวเตอร์"
         },
         {
             "id": 17,
             "name": "เคส",
-            "image": "https:\/\/images.unsplash.com\/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=300&q=80",
+            "clue": "โครงกล่องภายนอกใช้บรรจุ ยึดจับ และป้องกันอุปกรณ์อิเล็กทรอนิกส์ทั้งหมดของคอม"
         },
         {
             "id": 18,
             "name": "ฮาร์ดดิสก์",
-            "image": "https:\/\/images.unsplash.com\/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=300&q=80",
+            "clue": "อุปกรณ์เก็บข้อมูลหลักที่มีจานจานโลหะแม่เหล็กหมุนความเร็วสูงภายใน"
         },
         {
             "id": 19,
             "name": "ซอฟต์แวร์",
-            "image": "https:\/\/images.unsplash.com\/photo-1605379399642-870262d3d051?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1605379399642-870262d3d051?auto=format&fit=crop&w=300&q=80",
+            "clue": "กลุ่มโปรแกรมหรือชุดคำสั่งที่เขียนขึ้นเพื่อสั่งให้คอมพิวเตอร์ทำงานตามต้องการ"
         },
         {
             "id": 20,
             "name": "การ์ดแสดงผล",
-            "image": "https:\/\/images.unsplash.com\/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=300&q=80",
+            "clue": "ชิปหรือการ์ดเร่งความเร็วประมวลผลภาพ 3D และส่งสัญญาณภาพออกจอคอม"
         },
         {
             "id": 21,
             "name": "ซีดี",
-            "image": "https:\/\/images.unsplash.com\/photo-1528642474498-1af0c17fd8c3?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1528642474498-1af0c17fd8c3?auto=format&fit=crop&w=300&q=80",
+            "clue": "แผ่นออปติคัลดิสก์ใช้แสงเลเซอร์อ่านเขียนข้อมูลดิจิทัล เหมาะสำหรับเพลงและซอฟต์แวร์"
         },
         {
             "id": 22,
             "name": "ไมโครโฟน",
-            "image": "https:\/\/images.unsplash.com\/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=300&q=80",
+            "clue": "อุปกรณ์รับสัญญาณเสียงคลื่นอนาล็อกและแปลงเป็นสัญญาณไฟฟ้าดิจิทัลบันทึกในคอม"
         },
         {
             "id": 23,
             "name": "ยูสเซอร์เนม",
-            "image": "https:\/\/images.unsplash.com\/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80",
+            "clue": "ชื่อระบุตัวตนของผู้ใช้ที่ใช้ควบคู่กับรหัสผ่านเพื่อล็อกอินเข้าระบบ"
         },
         {
             "id": 24,
             "name": "จอภาพ",
-            "image": "https:\/\/images.unsplash.com\/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=300&q=80"
+            "image": "https:\/\/images.unsplash.com\/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=300&q=80",
+            "clue": "อุปกรณ์ส่งออกหลักประเภทแสดงผลลัพธ์ข้อมูลภาพ กราฟิก และข้อความให้สายตามองเห็น"
         },
         {
             "id": 25,
             "name": "เครื่องปริ้นเตอร์ 3 มิติ",
             "image": "https:\/\/images.unsplash.com\/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&w=300&q=80",
-            "decoy": true
+            "decoy": true,
+            "clue": "อุปกรณ์พิมพ์วัตถุขึ้นมาเป็นรูปทรงสามมิติที่จับต้องได้จากการฉีดเส้นพลาสติก"
         },
         {
             "id": 26,
             "name": "แว่น VR",
             "image": "https:\/\/images.unsplash.com\/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=300&q=80",
-            "decoy": true
+            "decoy": true,
+            "clue": "อุปกรณ์สวมศีรษะจำลองภาพแวดล้อมเสมือนจริง 3 มิติ แบบ 360 องศา"
         },
         {
             "id": 27,
             "name": "พล็อตเตอร์",
             "image": "https:\/\/images.unsplash.com\/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=300&q=80",
-            "decoy": true
+            "decoy": true,
+            "clue": "เครื่องพิมพ์ขนาดใหญ่พิเศษใช้ปากกาขีดเขียนเส้นวาดแบบแปลนสถาปัตยกรรม"
         },
         {
             "id": 28,
             "name": "การ์ดเสียง",
             "image": "https:\/\/images.unsplash.com\/photo-1580584126903-c17d41830450?auto=format&fit=crop&w=300&q=80",
-            "decoy": true
+            "decoy": true,
+            "clue": "บอร์ดวงจรขยายประมวลผลสัญญาณเสียงเพื่อต่อลำโพงและเครื่องดนตรีระดับมืออาชีพ"
         },
         {
             "id": 29,
             "name": "เครื่องสำรองไฟ (UPS)",
             "image": "https:\/\/images.unsplash.com\/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=300&q=80",
-            "decoy": true
+            "decoy": true,
+            "clue": "เครื่องมีแบตเตอรี่ภายในจ่ายไฟฉุกเฉินเพื่อให้คอมไม่ดับและปิดเครื่องได้ทันเมื่อไฟดับ"
         }
     ],
-    "round_id": "r_6a4b426a75dbf3.89814379",
+    "round_id": "r_6a531e3f69f406.61202162",
     "drawn_ids": [],
     "winners": [],
     "draw_sequence": [
+        26,
+        1,
+        27,
         11,
+        23,
         4,
+        5,
+        29,
+        6,
+        12,
+        8,
         18,
         20,
-        27,
+        10,
+        22,
         14,
-        15,
         16,
-        23,
+        13,
+        25,
+        17,
         9,
         7,
-        19,
         24,
-        1,
-        6,
-        8,
-        10,
-        2,
         3,
-        26,
-        5,
-        17,
         21,
-        22,
-        25,
         28,
-        12,
-        13,
-        29
+        2,
+        19,
+        15
     ],
-    "player_assignments": []
+    "player_assignments": [],
+    "question_mode": true,
+    "is_revealed": true
 }

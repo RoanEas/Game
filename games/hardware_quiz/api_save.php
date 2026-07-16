@@ -55,6 +55,7 @@ if ($action === 'save_items') {
     $existingData['round_id'] = uniqid('r_', true);
     $existingData['drawn_ids'] = [];
     $existingData['winners'] = [];
+    $existingData['is_revealed'] = true; // reset to true for new round
     
     // Generate pre-determined draw sequence
     $itemIds = [];
@@ -79,12 +80,22 @@ if ($action === 'save_items') {
     if (!in_array($itemId, $existingData['drawn_ids'])) {
         $existingData['drawn_ids'][] = $itemId;
     }
+    // Set is_revealed to false if question_mode is active
+    $existingData['is_revealed'] = !empty($existingData['question_mode']) ? false : true;
+    
     file_put_contents($jsonPath, json_encode($existingData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-    echo json_encode(["status" => "success", "drawn_ids" => $existingData['drawn_ids']]);
+    echo json_encode(["status" => "success", "drawn_ids" => $existingData['drawn_ids'], "is_revealed" => $existingData['is_revealed']]);
+} elseif ($action === 'toggle_quiz_mode') {
+    $existingData['question_mode'] = (bool)($input['enabled'] ?? false);
+    file_put_contents($jsonPath, json_encode($existingData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    echo json_encode(["status" => "success", "question_mode" => $existingData['question_mode']]);
+} elseif ($action === 'reveal_item') {
+    $existingData['is_revealed'] = true;
+    file_put_contents($jsonPath, json_encode($existingData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    echo json_encode(["status" => "success", "is_revealed" => true]);
 } elseif ($action === 'claim_bingo') {
     $username = $_SESSION['username'] ?? 'Anonymous';
     
-    // Check if already in winners list to prevent duplicate entries
     $alreadyWon = false;
     foreach ($existingData['winners'] as $winner) {
         if ($winner['username'] === $username) {
