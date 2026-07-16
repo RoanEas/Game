@@ -259,7 +259,7 @@ if (isset($_GET['logout'])) { session_destroy(); header("Location: index.php"); 
             </a>
 
             <!-- Lightning Quiz (ปริศนาสายฟ้า) -->
-            <a href="games/blitz_quiz/index.php" class="game-card card-cyan" <?php if(!isset($_SESSION['user_id'])) echo 'onclick="event.preventDefault(); switchTab(\'tab-login\', document.querySelector(\'[data-tab=\\\'tab-login\\\']\'));"'; ?>>
+            <a href="games/lightning_quiz/index.php" class="game-card card-cyan" <?php if(!isset($_SESSION['user_id'])) echo 'onclick="event.preventDefault(); switchTab(\'tab-login\', document.querySelector(\'[data-tab=\\\'tab-login\\\']\'));"'; ?>>
                 <ion-icon name="flash" class="game-icon" style="color: var(--neon-cyan);"></ion-icon>
                 <div class="game-title">ปริศนาสายฟ้า</div>
                 <div class="game-desc">ตอบคำถามเก็บคะแนนสะสมไต่บันไดความสูง 10 ขั้น</div>
@@ -303,31 +303,6 @@ if (isset($_GET['logout'])) { session_destroy(); header("Location: index.php"); 
     </div>
 
 
-    <!-- TAB: ATTENDANCE (เช็คชื่อ) -->
-    <div id="tab-attendance" class="tab-content">
-        <div class="auth-panel" style="max-width: 600px; margin: 0 auto;">
-            <h2 style="text-align: center; font-family: 'Chakra Petch', sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px;">
-                <ion-icon name="checkbox-outline" style="color: var(--neon-cyan);"></ion-icon>
-                <span>รายชื่อสายลับที่เช็คชื่อวันนี้</span>
-            </h2>
-            <p style="text-align: center; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px; font-family: 'Chakra Petch', sans-serif;">
-                อัปเดตความเคลื่อนไหวของเพื่อนๆ แบบเรียลไทม์ (Real-time Attendance)
-            </p>
-            
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <div style="text-align: center; margin-bottom: 24px;">
-                    <button onclick="triggerManualCheckin()" class="btn-submit" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; padding: 12px 24px; background: linear-gradient(135deg, var(--neon-cyan), #0891b2); color: #000; font-weight: 800; font-size: 1rem; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(6,182,212,0.3); font-family: 'Chakra Petch', sans-serif; transition: all 0.2s ease;">
-                        <ion-icon name="finger-print-outline" style="font-size: 1.3rem;"></ion-icon>
-                        <span>กดเช็คชื่อรายงานตัว 📍</span>
-                    </button>
-                </div>
-            <?php endif; ?>
-
-            <div id="attendance-list-wrapper" class="social-list-wrapper" style="max-height: 450px; overflow-y: auto;">
-                <div class="empty-state-text">กำลังโหลดข้อมูลรายชื่อ...</div>
-            </div>
-        </div>
-    </div>
 
     <!-- TAB 3: LOGIN / SIGN UP -->
     <div id="tab-login" class="tab-content">
@@ -446,10 +421,11 @@ if (isset($_GET['logout'])) { session_destroy(); header("Location: index.php"); 
             <span>RANK</span>
         </button>
 
-        <button class="dock-btn" data-tab="tab-attendance" onclick="switchTab('tab-attendance', this)">
+        <a href="attendance.php" class="dock-btn" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center;" <?php if(!isset($_SESSION['user_id'])) echo 'onclick="event.preventDefault(); switchTab(\'tab-login\', document.querySelector(\'[data-tab=\\\'tab-login\\\']\'));"'; ?>>
             <ion-icon name="checkbox-outline"></ion-icon>
             <span>CHECK-IN</span>
-        </button>
+        </a>
+
 
         <?php if(isset($_SESSION['user_id'])): ?>
             <button class="dock-btn" data-tab="tab-social" onclick="switchTab('tab-social', this)">
@@ -810,69 +786,7 @@ function removeFriend(friendshipId) {
     fetch('api_social.php?action=decline_friend', { method: 'POST', body: fd }).then(() => loadSocialLists());
 }
 
-// ═══════════════════════════════════════════════════════════════
-//  📍 REAL-TIME ATTENDANCE CHECK-IN SYSTEM
-// ═══════════════════════════════════════════════════════════════
-function loadAttendanceList() {
-    fetch('api_attendance.php')
-        .then(r => r.json())
-        .then(data => {
-            const wrapper = document.getElementById('attendance-list-wrapper');
-            if (!wrapper) return;
-            if (data.status !== 'success') {
-                wrapper.innerHTML = `<div class="empty-state-text" style="color: var(--neon-pink);">เกิดข้อผิดพลาดในการโหลดข้อมูล</div>`;
-                return;
-            }
-            if (data.players.length === 0) {
-                wrapper.innerHTML = `<div class="empty-state-text">ยังไม่มีผู้ลงทะเบียนร่วมเล่นในวันนี้</div>`;
-                return;
-            }
-            
-            // Render the list of checked-in players
-            wrapper.innerHTML = data.players.map(p => {
-                const avSeed = p.avatar_file === 'dog.png' ? '0' : (p.avatar_file === 'cat.png' ? '1' : (p.avatar_file === 'bear.png' ? '2' : (p.avatar_file === 'boy.png' ? '3' : '4')));
-                return `
-                    <div class="social-user-row" style="margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05); padding: 12px; border-radius: 16px; background: rgba(255,255,255,0.02); display: flex; align-items: center; justify-content: space-between;">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <div class="avatar-wrapper" style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border-radius: 50%; overflow: hidden; border: 2px solid ${p.is_online ? 'var(--neon-green)' : 'rgba(255,255,255,0.1)'};">
-                                <img src="assets/avatar/${p.avatar_file}" class="row-avatar" style="width: 80%; height: 80%; object-fit: contain;" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=${avSeed}'">
-                            </div>
-                            <div class="row-user-details" style="display: flex; flex-direction: column;">
-                                <div class="row-user-name" style="font-weight: bold; color: #fff; font-size: 1rem; font-family: 'Chakra Petch', sans-serif;">${p.real_name}</div>
-                                <div class="row-user-username" style="font-size: 0.8rem; color: var(--text-muted);">@${p.username}</div>
-                            </div>
-                        </div>
-                        <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
-                            <div style="font-size: 0.8rem; color: var(--neon-cyan); font-weight: bold;">📍 เช็คชื่อ ${p.checkin_time}</div>
-                            <div style="font-size: 0.8rem; font-weight: bold; color: ${p.is_online ? 'var(--neon-green)' : '#94a3b8'}; margin-top: 4px;">
-                                ${p.is_online ? '● ONLINE' : '○ OFFLINE'}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        });
-}
 
-function triggerManualCheckin() {
-    fetch('api_attendance.php?action=checkin')
-        .then(r => r.json())
-        .then(data => {
-            if (data.status === 'success') {
-                if (navigator.vibrate) navigator.vibrate(30);
-                alert('เช็คชื่อรายงานตัวเข้าเล่นสำเร็จ! 📍');
-                loadAttendanceList();
-            } else {
-                alert('ไม่สามารถเช็คชื่อได้: ' + data.message);
-            }
-        });
-}
-
-// Initial fetch and set interval
-document.addEventListener('DOMContentLoaded', () => {
-    loadAttendanceList();
-    setInterval(loadAttendanceList, 3000); // query every 3 seconds
-});
 
 // Start timers and checks
 if (IS_LOGGED_IN) {

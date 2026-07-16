@@ -1,10 +1,12 @@
 <?php
 header('Content-Type: application/json');
 require_once __DIR__ . '/db.php';
+session_start();
+
+$action = $_GET['action'] ?? '';
 
 // Check-in action
-if (isset($_GET['action']) && $_GET['action'] === 'checkin') {
-    session_start();
+if ($action === 'checkin') {
     $uid = $_SESSION['user_id'] ?? null;
     if (!$uid) {
         echo json_encode(["status" => "error", "message" => "Unauthorized"]);
@@ -20,6 +22,22 @@ if (isset($_GET['action']) && $_GET['action'] === 'checkin') {
     }
     exit();
 }
+
+// Reset action (Admins only)
+if ($action === 'reset') {
+    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+        echo json_encode(["status" => "error", "message" => "Unauthorized. Admins only."]);
+        exit();
+    }
+    $stmt = $conn->query("UPDATE users SET last_checkin = 0");
+    if ($stmt) {
+        echo json_encode(["status" => "success", "message" => "Attendance list reset successfully"]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Failed to reset attendance"]);
+    }
+    exit();
+}
+
 
 // Fetch users checked in within the last 12 hours
 $time_limit = time() - (12 * 3600);
