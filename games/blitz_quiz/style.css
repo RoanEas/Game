@@ -120,19 +120,22 @@ body {
     min-height: 0;
 }
 
-/* LADDER TUBE (LEFT) */
+/* LADDER TUBE (LEFT) - GLASS CYLINDER TUBE */
 .ladder-tube-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: rgba(15, 23, 42, 0.4);
-    border: 2px solid var(--card-border);
-    border-radius: 24px;
-    padding: 20px 15px;
-    box-shadow: 0 0 30px rgba(6, 182, 212, 0.05);
+    background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 25%, rgba(0,0,0,0.5) 50%, rgba(255,255,255,0.03) 75%, rgba(255,255,255,0.08) 100%);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 40px;
+    padding: 35px 12px;
+    box-shadow: 0 0 45px rgba(0,0,0,0.85), inset 0 0 25px rgba(255,255,255,0.06);
     position: relative;
     overflow: hidden;
+    width: 160px;
+    height: 560px;
+    margin: 0 auto;
 }
 
 .ladder-tube-wrapper::before {
@@ -142,54 +145,73 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(180deg, rgba(6, 182, 212, 0.05) 0%, transparent 100%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 100%);
     pointer-events: none;
+    z-index: 3;
+}
+
+/* Metal tube cap decorations */
+.ladder-tube-wrapper::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 15px;
+    background: linear-gradient(90deg, #1e293b 0%, #475569 50%, #0f172a 100%);
+    border: 1px solid rgba(255,255,255,0.2);
+    z-index: 4;
+}
+.ladder-tube-wrapper:first-child::after {
+    top: 0;
+    border-top: none;
 }
 
 .ladder-tube {
     display: flex;
     flex-direction: column-reverse; /* 1 at bottom, 10 at top */
-    gap: 8px;
+    justify-content: space-between;
     width: 100%;
-    max-height: 100%;
+    height: 100%;
     position: relative;
+    padding: 10px 0;
 }
 
 /* ⚡ LIGHTNING BOLT ANIMATIONS */
 .lightning-svg {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
     height: 100%;
-    z-index: 0;
+    z-index: 1;
     pointer-events: none;
     overflow: visible;
 }
 
 #lightning-path {
     stroke: var(--neon-cyan);
-    stroke-width: 4;
+    stroke-width: 3.5;
     stroke-linecap: round;
     stroke-linejoin: round;
     fill: none;
-    filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.6));
-    opacity: 0.35;
+    filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.7));
+    opacity: 0.3;
     transition: all 0.15s ease;
-    stroke-dasharray: 25, 12;
+    stroke-dasharray: 20, 10;
     animation: lightningIdleFlow 1.2s linear infinite;
 }
 
 @keyframes lightningIdleFlow {
     to {
-        stroke-dashoffset: -37;
+        stroke-dashoffset: -30;
     }
 }
 
 .lightning-flash-animation {
     stroke: #ffffff !important;
-    stroke-width: 6 !important;
-    filter: drop-shadow(0 0 25px var(--neon-cyan)) drop-shadow(0 0 10px var(--neon-cyan)) !important;
+    stroke-width: 5.5 !important;
+    filter: drop-shadow(0 0 20px var(--neon-cyan)) drop-shadow(0 0 8px var(--neon-cyan)) !important;
     opacity: 1 !important;
     animation: lightningStrikeStrike 0.35s ease-out forwards !important;
 }
@@ -197,28 +219,35 @@ body {
 @keyframes lightningStrikeStrike {
     0% { opacity: 0.3; }
     20% { opacity: 1; }
-    40% { opacity: 0.5; }
-    55% { opacity: 1; }
-    100% { opacity: 0.8; }
+    40% { opacity: 0.4; }
+    60% { opacity: 1; }
+    100% { opacity: 0.75; }
 }
 
+/* CYLINDRICAL LEVEL STACKS */
 .ladder-step {
-    height: 48px;
-    border-radius: 12px;
+    height: 38px;
+    width: 76px;
+    margin: 0 auto;
+    border-radius: 50% / 12px; /* 3D ellipse ring cap shape */
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    font-size: 1.1rem;
-    font-weight: 800;
+    justify-content: center;
     font-family: 'Chakra Petch', sans-serif;
-    border: 1px solid var(--ladder-border-inactive);
-    background: var(--ladder-bg-inactive);
-    color: var(--text-muted);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid #334155;
+    background: radial-gradient(circle, #1e293b 0%, #0f172a 100%);
+    color: #475569;
+    box-shadow: inset 0 2px 3px rgba(255,255,255,0.05), 0 3px 5px rgba(0,0,0,0.4);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    overflow: hidden;
-    z-index: 2; /* Float above the lightning bolt path */
+    z-index: 2;
+}
+
+.ladder-step .level-num {
+    font-size: 1.4rem;
+    font-weight: 900;
+    font-style: italic;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
 
 .ladder-step .step-glow {
@@ -227,31 +256,38 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, rgba(16, 185, 129, 0.15) 0%, transparent 100%);
+    border-radius: inherit;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, transparent 100%);
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.25s;
 }
 
-/* Level Active State */
+/* Neon Active State */
 .ladder-step.active-level {
-    border-color: var(--neon-cyan);
-    background: rgba(6, 182, 212, 0.15);
+    border-color: var(--neon-green);
+    background: radial-gradient(circle, #22c55e 0%, #15803d 100%);
     color: #fff;
-    box-shadow: 0 0 15px rgba(6, 182, 212, 0.4), inset 0 0 10px rgba(6, 182, 212, 0.2);
-    transform: scale(1.03);
+    box-shadow: 0 0 22px #22c55e, 0 0 8px #15803d, inset 0 2px 4px rgba(255,255,255,0.4);
+    transform: scale(1.15);
+    animation: activeStepPulse 0.8s infinite alternate;
+}
+
+@keyframes activeStepPulse {
+    from { box-shadow: 0 0 15px #22c55e, inset 0 2px 3px rgba(255,255,255,0.3); }
+    to { box-shadow: 0 0 30px #22c55e, 0 0 10px #22c55e, inset 0 2px 4px rgba(255,255,255,0.4); }
 }
 
 .ladder-step.active-level .step-glow {
-    background: linear-gradient(90deg, rgba(6, 182, 212, 0.3) 0%, transparent 100%);
     opacity: 1;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
 }
 
-/* Level Completed State */
+/* Completed Level State */
 .ladder-step.completed-level {
-    border-color: var(--neon-green);
-    background: rgba(16, 185, 129, 0.08);
-    color: var(--neon-green);
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.15);
+    border-color: #10b981;
+    background: radial-gradient(circle, #10b981 0%, #065f46 100%);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.6), inset 0 2px 3px rgba(255,255,255,0.25);
 }
 
 .ladder-step.completed-level .step-glow {
@@ -266,67 +302,76 @@ body {
     min-height: 0;
 }
 
-/* QUESTION CARD */
-.question-card {
-    background: var(--card-bg);
-    border: 2px solid var(--card-border);
-    border-radius: 24px;
-    padding: 30px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+/* STACKED HORIZONTAL CHOICES */
+.choices-stack {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
+    gap: 12px;
+    width: 100%;
 }
 
-.question-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 6px;
-    height: 100%;
-    background: var(--neon-cyan);
-    box-shadow: 0 0 15px var(--neon-cyan);
-}
-
-.question-text {
-    font-size: 1.6rem;
-    font-weight: 700;
-    line-height: 1.6;
-    color: #fff;
-    margin-bottom: 10px;
-}
-
-/* CHOICES GRID */
-.choices-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.choice-btn {
-    background: rgba(255,255,255,0.02);
-    border: 2px solid rgba(255,255,255,0.05);
-    border-radius: 16px;
-    padding: 20px;
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #cbd5e1;
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.2s ease;
+.choice-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    background: rgba(15, 23, 42, 0.65);
+    border: 2px solid rgba(6, 182, 212, 0.25);
+    border-radius: 14px;
+    padding: 12px 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    animation: fadeInRow 0.35s ease-out forwards;
 }
 
-.choice-btn:hover {
-    background: rgba(255,255,255,0.05);
-    border-color: rgba(255,255,255,0.15);
+@keyframes fadeInRow {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.choice-num-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--neon-cyan);
+    color: #000;
+    font-weight: 900;
+    font-size: 1.15rem;
+    margin-right: 20px;
+    font-family: 'Chakra Petch', sans-serif;
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+}
+
+.choice-text-val {
     color: #fff;
-    transform: translateY(-2px);
+    font-size: 1.35rem;
+    font-weight: bold;
+    font-family: 'Chakra Petch', sans-serif;
+    text-align: left;
+}
+
+/* score badge header */
+.score-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Chakra Petch', sans-serif;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 5px 15px;
+    border-radius: 10px;
+}
+.score-badge span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.score-badge strong {
+    font-size: 1.6rem;
+    color: var(--neon-green);
+    text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
 }
 
 .choice-btn.selected {
