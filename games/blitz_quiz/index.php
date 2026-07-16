@@ -26,32 +26,8 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || $_SESSION['role
 
 <div class="game-container" id="game-app">
     
-    <!-- LOBBY SCREEN (SETUP PHASE) -->
-    <div id="screen-setup" class="setup-screen" style="max-width:600px; margin: 40px auto; padding: 30px;">
-        <h2 style="font-family: 'Chakra Petch', sans-serif; font-size: 1.8rem; color: #fff; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-            <ion-icon name="flash" style="color:var(--neon-cyan);"></ion-icon>
-            <span>ปริศนาสายฟ้า ⚡ CONTROL</span>
-        </h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px;">เลือกสายลับที่อยู่กับตัวท่านในห้องจัดกิจกรรมและกดเริ่มปฏิบัติภารกิจ</p>
-        
-        <div class="input-group" style="text-align: left; margin-bottom: 20px;">
-            <label style="color: var(--neon-cyan); font-weight: bold; font-size: 0.95rem;">เลือกผู้เล่นสายลับ (Select Active Player)</label>
-            <select id="player-selector" style="width: 100%; padding: 15px; margin-top: 8px; background: rgba(0,0,0,0.6); border: 2px solid var(--neon-cyan); border-radius: 12px; color: #fff; font-size: 1.15rem; font-weight: bold; cursor: pointer; outline: none; font-family: 'Chakra Petch';">
-                <option value="">-- กำลังโหลดรายชื่อผู้เล่น... --</option>
-            </select>
-        </div>
-        
-        <button onclick="startGame()" class="btn-ctrl primary" style="width: 100%; justify-content: center; padding: 16px; border-radius: 12px; font-size: 1.2rem; font-weight: bold;">
-            เริ่มเล่นเกม 🎮
-        </button>
-        
-        <a href="../../index.php" class="btn-ctrl secondary" style="margin-top: 15px; display: inline-flex; justify-content: center; text-decoration: none; width: 100%;">
-            กลับสู่หน้าหลักชมรม
-        </a>
-    </div>
-
     <!-- GAMEPLAY SCREEN (PLAYING PHASE) -->
-    <div id="screen-game" style="display: none; flex-direction: column; flex: 1;">
+    <div id="screen-game" style="display: flex; flex-direction: column; flex: 1;">
         <div class="game-header">
             <div class="brand-title">
                 <ion-icon name="flash" style="color:var(--neon-cyan);"></ion-icon>
@@ -221,34 +197,12 @@ function playSound(type) {
 }
 
 // Fetch players list on startup
-function loadPlayersList() {
-    fetch('api_room.php?action=list_players')
-        .then(r => r.json())
-        .then(data => {
-            const select = document.getElementById('player-selector');
-            if (data.status === 'success' && data.players.length > 0) {
-                select.innerHTML = '<option value="">-- เลือกสายลับเพื่อเข้าปฏิบัติการ --</option>' + 
-                    data.players.map(p => `<option value="${p.id}" data-name="${p.real_name}" data-avatar="${p.avatar}">${p.real_name} (${p.score} PTS)</option>`).join('');
-            } else {
-                select.innerHTML = '<option value="">ยังไม่มีชื่อผู้เล่นในฐานข้อมูล</option>';
-            }
-        });
-}
-
-// Start player turn
+// Start casual player turn directly
 function startGame() {
-    const select = document.getElementById('player-selector');
-    const selectedOption = select.options[select.selectedIndex];
-    
-    if (!selectedOption || !selectedOption.value) {
-        alert('กรุณาเลือกผู้เล่นก่อนเข้าแข่ง!');
-        return;
-    }
-    
     activePlayer = {
-        id: parseInt(selectedOption.value),
-        real_name: selectedOption.getAttribute('data-name'),
-        avatar: selectedOption.getAttribute('data-avatar')
+        id: 0,
+        real_name: 'ผู้ท้าชิงสายฟ้า ⚡',
+        avatar: 'dog.png'
     };
     
     // Set UI
@@ -262,7 +216,6 @@ function startGame() {
     isTimerRunning = true;
     
     // Render setup
-    document.getElementById('screen-setup').style.display = 'none';
     document.getElementById('screen-game').style.display = 'flex';
     document.getElementById('screen-ended').style.display = 'none';
     
@@ -425,32 +378,21 @@ function pauseResumeTimer() {
 }
 
 // Save result to profile
+// End game and show results directly
 function saveAndEndGame() {
     isTimerRunning = false;
     clearInterval(timerInterval);
     timerInterval = null;
     gameStatus = 'ended';
     
-    // Send score to API
-    const fd = new FormData();
-    fd.append('player_id', activePlayer.id);
-    fd.append('score', currentScore);
+    // Render results
+    document.getElementById('summary-avatar').src = '../../assets/avatar/' + activePlayer.avatar;
+    document.getElementById('summary-player-name').textContent = activePlayer.real_name;
+    document.getElementById('summary-score').textContent = `${currentScore} / 10 ขั้น`;
+    document.getElementById('summary-bonus-text').textContent = `จบเทิร์นปฏิบัติการสะสมการตอบคำถาม ปริศนาสายฟ้า!`;
     
-    fetch('api_room.php?action=save_score', { method: 'POST', body: fd })
-        .then(r => r.json())
-        .then(data => {
-            // Render results
-            document.getElementById('summary-avatar').src = '../../assets/avatar/' + activePlayer.avatar;
-            document.getElementById('summary-player-name').textContent = activePlayer.real_name;
-            document.getElementById('summary-score').textContent = `${currentScore} / 10 ขั้น`;
-            
-            const bonusPts = data.points_earned || 0;
-            document.getElementById('summary-bonus-text').textContent = `เพิ่มคะแนนพิเศษ +${bonusPts} PTS ลงในโปรไฟล์สำเร็จ! 🏆`;
-            
-            document.getElementById('screen-setup').style.display = 'none';
-            document.getElementById('screen-game').style.display = 'none';
-            document.getElementById('screen-ended').style.display = 'block';
-        });
+    document.getElementById('screen-game').style.display = 'none';
+    document.getElementById('screen-ended').style.display = 'block';
 }
 
 function forceEndGame() {
@@ -464,11 +406,10 @@ function resetGame() {
     activePlayer = null;
     currentQuestion = null;
     
-    document.getElementById('screen-setup').style.display = 'block';
-    document.getElementById('screen-game').style.display = 'none';
+    document.getElementById('screen-game').style.display = 'flex';
     document.getElementById('screen-ended').style.display = 'none';
     
-    loadPlayersList();
+    startGame();
 }
 
 // KEYBOARD CONTROLLER SHORTCUTS
@@ -492,7 +433,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Startup
-loadPlayersList();
+startGame();
 </script>
 
 </body>
