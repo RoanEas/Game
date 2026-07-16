@@ -137,7 +137,6 @@ if (file_exists($jsonPath)) {
         <a href="../../index.php" class="tab-item">หน้าแรกหลัก</a>
         <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
             <a href="index.php" class="tab-item">เครื่องสุ่มจับ</a>
-            <a href="../../admin.php" class="tab-item" style="color: #facc15;">คุมระบบ (Admin)</a>
         <?php endif; ?>
         <div class="tab-item active">กระดานเล่นบิงโก</div>
         <a href="../../dashboard.php" class="tab-item">หน้าควบคุมหลัก</a>

@@ -194,12 +194,6 @@ $avatarsList = $avatarData['avatars'] ?? [];
             <ion-icon name="person-outline"></ion-icon>
             <span class="tab-text">โปรไฟล์</span>
         </a>
-        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-            <a href="admin.php" class="tab-item" style="color: #facc15;" title="ผู้ดูแลระบบ (Admin)">
-                <ion-icon name="shield-half-outline"></ion-icon>
-                <span class="tab-text">แอดมิน</span>
-            </a>
-        <?php endif; ?>
         <a href="logout.php" class="tab-item" style="color: var(--neon-pink);" title="ออกจากระบบ">
             <ion-icon name="log-out-outline"></ion-icon>
             <span class="tab-text">ออกระบบ</span>

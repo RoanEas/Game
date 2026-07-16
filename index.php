@@ -464,12 +464,6 @@ if (isset($_GET['logout'])) { session_destroy(); header("Location: index.php"); 
                 <span>LOGIN</span>
             </button>
         <?php endif; ?>
-        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-            <a href="admin.php" class="dock-btn" style="text-decoration: none; color: #facc15;">
-                <ion-icon name="settings"></ion-icon>
-                <span>ADMIN</span>
-            </a>
-        <?php endif; ?>
         <?php if (isset($_SESSION['user_id'])): ?>
             <a href="index.php?logout=1" class="dock-btn" style="text-decoration: none; color: var(--neon-pink);">
                 <ion-icon name="log-out-outline"></ion-icon>

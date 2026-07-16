@@ -38,7 +38,7 @@ if ($action === 'create') {
     $stmt->execute();
     
     $stmt = $conn->prepare("INSERT INTO blitz_rooms (room_code, host_user_id, game_status, score, seconds_remaining, timer_running) VALUES (?, ?, 'setup', 0, 120, 0) ON DUPLICATE KEY UPDATE host_user_id = ?, game_status = 'setup', score = 0, seconds_remaining = 120, timer_running = 0");
-    $stmt->bind_param("siii", $room_code, $userId, $userId);
+    $stmt->bind_param("sii", $room_code, $userId, $userId);
     $stmt->execute();
     
     echo json_encode(["status" => "success", "room_code" => $room_code]);
